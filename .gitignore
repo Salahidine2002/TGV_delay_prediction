@@ -1,0 +1,5 @@
+# Ignore the pycache folders
+**pycache**
+
+# Ignore tests files
+**_test.**
