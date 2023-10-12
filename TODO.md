@@ -11,20 +11,22 @@
 
 ## Analysis
 
-- [ ] analyser la corrélation entre les différentes variables > **Agathe**
-  - [ ] par rapport au retard à l'arrivée
-  - [ ] par rapport aux différences causes de retard
+- [x] analyser la corrélation entre les différentes variables > **Agathe**
+  - [x] par rapport au retard à l'arrivée
+  - [x] par rapport aux différences causes de retard
+- [ ] afficher la matrice de chaleur > **Agathe**
 
 ## Preprocessing
 
-- [ ] repérer si des trajets sont identiques deux fois par mois > **Laure**
-  - [ ] s'il y a en plusieurs choix : on fait la moyenne ou on les supprime (à tester ce qui est mieux)
-- [ ] enlever les trajets qui ont la même gare d'arrivée et de départ > **Laure**
+- [x] repérer si des trajets sont identiques deux fois par mois > **Laure**
+  - [x] s'il y a en plusieurs choix : on fait la moyenne ou on les supprime (à tester ce qui est mieux) : il n'y en avait pas
+- [x] enlever les trajets qui ont la même gare d'arrivée et de départ > **Laure**
 - [ ] normaliser les données > **Ibrahim**
-- [ ] transformer national/international en 0/1 > **Ibrahim**
+- [x] transformer national/international en 0/1 > **Ibrahim**
 - [ ] encoder le nom des gares (tester plusieurs méthodes et comparer les meilleures) > **Ibrahim**
-  - [ ] one-hot encoding
-  - [ ] ordinal encoder method
+  - [x] one-hot encoding
+  - [x] ordinal encoder method
+  - [ ] extraire les coordonnées des gares
 
 ## Model
 

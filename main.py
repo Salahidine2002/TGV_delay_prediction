@@ -15,10 +15,12 @@ from tools.tools_analysis import (
     display_correlation_graph
 )
 from tools.tools_constants import (
-    PATH_DATASET
+    PATH_DATASET,
+    DELAY_FEATURE
 )
 from tools.tools_database import (
-    Read_data
+    Read_data,
+    Histograms
 )
 
 #################
@@ -27,6 +29,8 @@ from tools.tools_database import (
 
 dataset = Read_data(PATH_DATASET)
 
+Histograms(Dataset=dataset, columns=[DELAY_FEATURE])
+
 ### Analysis of the correlation with features of interest ###
 
-display_correlation_graph(dataset)
+#display_correlation_graph(dataset)
