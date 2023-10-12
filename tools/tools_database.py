@@ -134,3 +134,8 @@ def Box_plot_months(Dataset, gare_dep, gare_arr, column) :
     plt.ylabel(column)
     plt.title(f'Traject {gare_dep} / {gare_arr}')
     plt.show()
+
+def Histograms(Dataset, columns) :
+
+    Dataset[columns].hist(figsize=(20, 20), bins=100)
+    plt.show()
