@@ -19,8 +19,7 @@ from tools.tools_constants import (
     DELAY_FEATURE
 )
 from tools.tools_database import (
-    Read_data,
-    Histograms
+    Read_data
 )
 
 #################
@@ -29,8 +28,12 @@ from tools.tools_database import (
 
 dataset = Read_data(PATH_DATASET)
 
-Histograms(Dataset=dataset, columns=[DELAY_FEATURE])
+### Preprocessing ###
+
+# enlever les données inutiles
+# scaling
+# enlever les colonnes qui ne vont pas
 
 ### Analysis of the correlation with features of interest ###
 
-#display_correlation_graph(dataset)
+display_correlation_graph(dataset)

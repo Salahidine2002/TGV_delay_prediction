@@ -6,8 +6,8 @@
 
 ## Data visualisation
 
-- [ ] boucle for pour visualiser tous les écarts types sur les trajets > **Salah**
-- [ ] visualisation de la différence entre retard arrivée et retard départ > **Salah**
+- [x] boucle for pour visualiser tous les écarts types sur les trajets > **Salah**
+- [x] visualisation de la différence entre retard arrivée et retard départ > **Salah**
 
 ## Analysis
 
@@ -21,13 +21,25 @@
 - [x] repérer si des trajets sont identiques deux fois par mois > **Laure**
   - [x] s'il y a en plusieurs choix : on fait la moyenne ou on les supprime (à tester ce qui est mieux) : il n'y en avait pas
 - [x] enlever les trajets qui ont la même gare d'arrivée et de départ > **Laure**
-- [ ] normaliser les données > **Ibrahim**
+- [x] normaliser les données > **Ibrahim**
 - [x] transformer national/international en 0/1 > **Ibrahim**
 - [ ] encoder le nom des gares (tester plusieurs méthodes et comparer les meilleures) > **Ibrahim**
   - [x] one-hot encoding
   - [x] ordinal encoder method
   - [ ] extraire les coordonnées des gares
+- [ ] pipeline de preprocessing dans le main > **Ibrahim**
+- [ ] enlever les valeurs aberrantes > **Salah**
 
 ## Model
 
-- [ ] c'est un pb de régression
+- [ ] méthodes classiques de régression
+  - [ ] polynomiale, moindres carrées > **Agathe**
+  - [ ] Lasso, Ridge > **Ibrahim**
+  - [ ] processus gaussiens > **Salah**
+- [ ] random forest et ses variations > **Laure**
+
+## Metrics
+
+- [ ] accuracy > **Ibrahim**
+- [ ] R2, R2 modifié > **Salah**
+- [ ] MSE, RMSE etc > **Agathe**
