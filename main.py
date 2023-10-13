@@ -12,9 +12,11 @@ Functions
 ### Module imports ###
 
 from tools.tools_analysis import (
-    display_correlation_graph
+    display_correlation_graph,
+    display_correlation_matrix
 )
 from tools.tools_constants import (
+    TEST_MODE,
     PATH_DATASET,
     DELAY_FEATURE
 )
@@ -36,4 +38,6 @@ dataset = Read_data(PATH_DATASET)
 
 ### Analysis of the correlation with features of interest ###
 
-display_correlation_graph(dataset)
+if TEST_MODE:
+    display_correlation_matrix(dataset)
+    display_correlation_graph(dataset)

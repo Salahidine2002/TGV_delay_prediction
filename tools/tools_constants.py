@@ -17,9 +17,12 @@ LIST_CAUSE_FEATURES : list[str]
 ### Constants ###
 #################
 
+TEST_MODE = True
+
 ### Paths ###
 
 PATH_DATASET = "Data/TGV.csv"
+PATH_FIGURES = "figures/"
 
 ### Features ###
 

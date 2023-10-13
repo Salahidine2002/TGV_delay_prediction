@@ -8,13 +8,15 @@
 
 - [x] boucle for pour visualiser tous les écarts types sur les trajets > **Salah**
 - [x] visualisation de la différence entre retard arrivée et retard départ > **Salah**
+- [ ] sauvegarder les images dans le dossier `figures` > **Salah**
 
 ## Analysis
 
 - [x] analyser la corrélation entre les différentes variables > **Agathe**
   - [x] par rapport au retard à l'arrivée
   - [x] par rapport aux différences causes de retard
-- [ ] afficher la matrice de chaleur > **Agathe**
+- [x] afficher la matrice de chaleur > **Agathe**
+- [ ] sauvegarder ces images > **Agathe**
 
 ## Preprocessing
 
@@ -42,4 +44,4 @@
 
 - [ ] accuracy > **Ibrahim**
 - [ ] R2, R2 modifié > **Salah**
-- [ ] MSE, RMSE etc > **Agathe**
+- [x] MSE, RMSE > **Agathe**
