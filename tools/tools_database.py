@@ -261,7 +261,7 @@ def box_plot_months(dataset, gare_dep, gare_arr, column) :
     plt.title(f'Traject {gare_dep} / {gare_arr}')
     plt.show()
 
-def histograms(Dataset, columns) :
+def histograms(dataset, columns) :
 
     """
     Displays the histograms of one or multiple numerical features
@@ -275,5 +275,30 @@ def histograms(Dataset, columns) :
     
     """
 
-    Dataset[columns].hist(figsize=(20, 20), bins=100)
+    dataset[columns].hist(figsize=(20, 20), bins=100)
     plt.show()
+
+def remove_outliers(dataset, threshold) :
+
+    """
+    Removes the oultiers rows with respect to the difference between arival and departure delays
+
+    Parameters
+    ----------
+    dataset : pandas.core.frame.DataFrame
+        Dataset that contains all the possible trajects.
+    threshold : float 
+        Z score threshold to eliminate the outliers.
+    """
+
+    Col = dataset['retard_moyen_arrivee']-dataset['retard_moyen_depart']
+    mean = np.mean(np.array(Col))
+    std = np.std(np.array(Col))
+
+    Z_score = abs(np.array((Col-mean)/std))
+
+    dataset = dataset[Z_score<threshold]
+    return dataset
+
+
+        

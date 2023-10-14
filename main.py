@@ -19,18 +19,27 @@ from tools.tools_constants import (
     DELAY_FEATURE
 )
 from tools.tools_database import (
-    Read_data
+    read_data, 
+    remove_outliers
 )
 
 #################
 ### Main code ###
 #################
 
-dataset = Read_data(PATH_DATASET)
+dataset = read_data(PATH_DATASET)
 
 ### Preprocessing ###
 
-# enlever les données inutiles
+# Removing outliers 
+
+score_threshold = 3
+dataset = remove_outliers(dataset, score_threshold)
+
+# Spliting data 
+train_set = dataset[dataset['date'].dt.year != 2023]
+test_set = dataset[dataset['date'].dt.year == 2023]
+
 # scaling
 # enlever les colonnes qui ne vont pas
 
