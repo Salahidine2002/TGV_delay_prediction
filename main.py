@@ -10,7 +10,8 @@ Functions
 ###############
 
 ### Module imports ###
-
+from tools.tools_models import *
+from sklearn.pipeline import make_pipeline
 from tools.tools_preprocessing import (pipeline_coords_robust, pipeline_coords_stand,
                                        pipeline_coords_minmax, pipeline_robust, pipeline_stand, pipeline_minmax)
 from tools.tools_analysis import (
@@ -18,7 +19,8 @@ from tools.tools_analysis import (
 )
 from tools.tools_constants import (
     PATH_DATASET,
-    DELAY_FEATURE
+    DELAY_FEATURE,
+    alph, iter_max, tolerance, l1_ratio
 )
 from tools.tools_database import (
     read_data,
@@ -44,6 +46,10 @@ test_set = dataset[dataset['date'].dt.year == 2023]
 
 # scaling normalizing et enlever les colonnes qui ne vont pas
 pipeline = pipeline_coords_stand()
+
+# create the pipeline with the model
+model = Lasso_reg(alph, iter_max, tolerance)
+complete_pipeline = make_pipeline(pipeline, model)
 
 ### Analysis of the correlation with features of interest ###
 
