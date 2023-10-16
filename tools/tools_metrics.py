@@ -14,7 +14,10 @@ compute_rmse
 ### Imports ###
 ###############
 
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import (
+    mean_squared_error,
+    accuracy_score
+)
 from math import sqrt
 
 #################
@@ -59,3 +62,23 @@ def compute_rmse(mse):
         Root Mean Square Error.
     """
     return sqrt(mse)
+
+def accuracy(y_test, y_predicted):
+    """
+    Compute accuracy_score
+
+    Parameters
+    ----------
+    y_test :
+        Feature to predict
+
+    y_predicted :
+        Feature predicted
+
+    Returns
+    -------
+    accuracy_score : float
+        accurary of the model
+    """
+
+    return accuracy_score(y_test, y_predicted)

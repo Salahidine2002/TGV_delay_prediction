@@ -35,6 +35,17 @@ LIST_CAUSE_FEATURES = [
     "prct_cause_prise_en_charge_voyageurs",
 ]
 
+QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_depart_retard',
+                  'retard_moyen_depart', 'retard_moyen_tous_trains_depart', 'nb_train_retard_arrivee']
+
+DROPPED_COLS = ['commentaire_annulation',
+                'commentaire_retards_depart', 'commentaires_retard_arrivee']
+
 ### Others ###
 
 RANDOM_STATE = 42
+
+ALPH = 1.0
+TOLERANCE = 0.0001
+ITER_MAX = 1000
+L1_RATIO = 0.5
