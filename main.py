@@ -45,11 +45,11 @@ train_set = dataset[dataset['date'].dt.year != 2023]
 test_set = dataset[dataset['date'].dt.year == 2023]
 
 # scaling normalizing et enlever les colonnes qui ne vont pas
-pipeline = pipeline_coords_stand()
+pipeline1 = pipeline_coords_stand()
 
 # create the pipeline with the model
-model = Lasso_reg(alph, iter_max, tolerance)
-complete_pipeline = make_pipeline(pipeline, model)
+model1 = Lasso_reg(alph, iter_max, tolerance)
+complete_pipeline = make_pipeline(pipeline1, model1)
 
 ### Analysis of the correlation with features of interest ###
 
