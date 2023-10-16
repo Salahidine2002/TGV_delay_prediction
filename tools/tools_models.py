@@ -131,4 +131,51 @@ def random_forest(n_estim, max_depth, min_samples_leaf):
         random_state = RANDOM_STATE
     )
 
+def extremely_random_trees(n_estim, max_depth, min_samples_leaf):
+    """
+    Extremely Random Trees
 
+    Parameters
+    ----------
+    n_estim : int
+        number of trees in the forest
+    
+    max_depth : int or None
+        Maximum depth off the tree
+
+    min_samples_leaf : int
+        The minimum number of samples required to be a leaf node
+
+    Returns
+    -------
+    ExtraTreesRegressor from sklearn.ensemble
+    """
+    return ExtraTreesRegressor(
+        n_estimators= n_estim,
+        max_depth= max_depth,
+        min_samples_leaf= min_samples_leaf,
+        random_state = RANDOM_STATE
+    )
+
+
+def decision_tree_reg(max_depth, min_samples_leaf):
+    """
+    Random Forest Regressor
+
+    Parameters
+    ----------  
+    max_depth : int or None
+        Maximum depth off the tree
+
+    min_samples_leaf : int
+        The minimum number of samples required to be a leaf node
+
+    Returns
+    -------
+    DecisionTreeRegressor from sklearn.tree
+    """
+    return DecisionTreeRegressor(
+        max_depth= max_depth,
+        min_samples_leaf= min_samples_leaf,
+        random_state = RANDOM_STATE
+    )
