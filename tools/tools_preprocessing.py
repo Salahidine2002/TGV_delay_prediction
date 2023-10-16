@@ -121,7 +121,7 @@ def coords_encoding(Dataset, colonnes):
     dataset_to_encode : pandas.core.frame.DataFrame
         Dataset with the chosen columns encoded as their geographical coordiantes
     """
-    L = Load_coords(Path='./Data/Coords.pickle')
+    L = load_coords(Path='./Data/Coords.pickle')
     dataset_to_encod = Dataset
 
     gare_depart_coord_x = []
