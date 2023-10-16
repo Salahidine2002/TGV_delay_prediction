@@ -16,17 +16,13 @@ compute_rmse
 
 from sklearn.metrics import (
     mean_squared_error,
-    accuracy_score
+    r2_score
 )
 from math import sqrt
 
 #################
 ### Functions ###
 #################
-
-def accuracy():
-    pass
-
 
 def compute_mse(y_test, y_predicted):
     """
@@ -63,22 +59,8 @@ def compute_rmse(mse):
     """
     return sqrt(mse)
 
-def accuracy(y_test, y_predicted):
+def compute_r2(y_true, y_pred):
     """
-    Compute accuracy_score
-
-    Parameters
-    ----------
-    y_test :
-        Feature to predict
-
-    y_predicted :
-        Feature predicted
-
-    Returns
-    -------
-    accuracy_score : float
-        accurary of the model
+    TODO docstring
     """
-
-    return accuracy_score(y_test, y_predicted)
+    return r2_score(y_true, y_pred)

@@ -26,11 +26,15 @@ from tools.tools_constants import (
     ALPH,
     ITER_MAX,
     TOLERANCE,
-    L1_RATIO
+    L1_RATIO,
+    LIST_FEATURES_TRAINING
 )
 from tools.tools_database import (
     read_data,
     remove_outliers
+)
+from tools.tools_metrics import (
+    compute_mse
 )
 from tools.tools_models import *
 from tools.tools_preprocessing import (
@@ -46,6 +50,8 @@ from tools.tools_preprocessing import (
 ### Main code ###
 #################
 
+### Read data ###
+
 dataset = read_data(PATH_DATASET)
 
 ### Preprocessing ###
@@ -59,15 +65,29 @@ dataset = remove_outliers(dataset, score_threshold)
 train_set = dataset[dataset['date'].dt.year != 2023]
 test_set = dataset[dataset['date'].dt.year == 2023]
 
-# scaling normalizing et enlever les colonnes qui ne vont pas
+# Scale, normalize and remove the wrong columns
 pipeline1 = pipeline_coords_stand()
-
-# create the pipeline with the model
-model1 = Lasso_reg(ALPH, ITER_MAX, TOLERANCE)
-complete_pipeline = make_pipeline(pipeline1, model1)
 
 ### Analysis of the correlation with features of interest ###
 
 if TEST_MODE:
     display_correlation_matrix(dataset)
     display_correlation_graph(dataset)
+
+### Training ###
+
+# Create the pipeline with the model
+# model1 = Lasso_reg(ALPH, ITER_MAX, TOLERANCE)
+model1 = Lasso_reg()
+complete_pipeline = make_pipeline(pipeline1, model1)
+
+complete_pipeline.fit(train_set[LIST_FEATURES_TRAINING], train_set[DELAY_FEATURE])
+y_predicted = complete_pipeline.predict(test_set[LIST_FEATURES_TRAINING])
+
+### Metrics ###
+
+mse = compute_mse(
+    y_predicted=y_predicted,
+    y_test=test_set[DELAY_FEATURE]
+)
+print(mse)

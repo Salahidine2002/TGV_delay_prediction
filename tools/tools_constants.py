@@ -17,7 +17,7 @@ LIST_CAUSE_FEATURES : list[str]
 ### Constants ###
 #################
 
-TEST_MODE = True
+TEST_MODE = False
 
 ### Paths ###
 
@@ -34,12 +34,21 @@ LIST_CAUSE_FEATURES = [
     "prct_cause_materiel_roulant",
     "prct_cause_prise_en_charge_voyageurs",
 ]
+LIST_FEATURES_TRAINING = [
+    "duree_moyenne",
+    "nb_train_prevu",
+    "gare_depart",
+    "gare_arrivee",
+    "service",
+    "date"
+]
 
-QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_depart_retard',
-                  'retard_moyen_depart', 'retard_moyen_tous_trains_depart', 'nb_train_retard_arrivee']
+QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu']
 
 DROPPED_COLS = ['commentaire_annulation',
                 'commentaire_retards_depart', 'commentaires_retard_arrivee']
+# TODO
+DROPPED_COLS = []
 
 ### Others ###
 

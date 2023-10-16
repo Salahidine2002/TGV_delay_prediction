@@ -3,6 +3,7 @@
 ## Data
 
 - [ ] écrire une fonction de séparation de dataset train/test > **Salah**
+- [ ] créer comme nouvelle feature le retard sur le mois précédent
 
 ## Data visualisation
 
@@ -16,20 +17,21 @@
   - [x] par rapport au retard à l'arrivée
   - [x] par rapport aux différences causes de retard
 - [x] afficher la matrice de chaleur > **Agathe**
-- [ ] sauvegarder ces images > **Agathe**
+- [x] sauvegarder ces images > **Agathe**
 
 ## Preprocessing
 
+- [x] réécrire la date d'une autre façon pour extraire juste le mois
 - [x] repérer si des trajets sont identiques deux fois par mois > **Laure**
   - [x] s'il y a en plusieurs choix : on fait la moyenne ou on les supprime (à tester ce qui est mieux) : il n'y en avait pas
 - [x] enlever les trajets qui ont la même gare d'arrivée et de départ > **Laure**
 - [x] normaliser les données > **Ibrahim**
 - [x] transformer national/international en 0/1 > **Ibrahim**
-- [ ] encoder le nom des gares (tester plusieurs méthodes et comparer les meilleures) > **Ibrahim**
+- [x] encoder le nom des gares (tester plusieurs méthodes et comparer les meilleures) > **Ibrahim**
   - [x] one-hot encoding
   - [x] ordinal encoder method
-  - [ ] extraire les coordonnées des gares
-- [ ] pipeline de preprocessing dans le main > **Ibrahim**
+  - [x] extraire les coordonnées des gares
+- [x] pipeline de preprocessing dans le main > **Ibrahim**
 - [ ] enlever les valeurs aberrantes > **Salah**
 
 ## Model
@@ -42,6 +44,9 @@
 
 ## Metrics
 
-- [ ] accuracy > **Ibrahim**
-- [ ] R2, R2 modifié > **Salah**
+- [x] R2, R2 modifié > **Salah**
 - [x] MSE, RMSE > **Agathe**
+
+## Code cleaning 
+
+- [ ] traiter tous les TODO

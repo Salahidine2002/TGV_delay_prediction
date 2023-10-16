@@ -165,7 +165,6 @@ def extremely_random_trees(n_estim, max_depth, min_samples_leaf):
         random_state = RANDOM_STATE
     )
 
-
 def decision_tree_reg(max_depth, min_samples_leaf):
     """
     Random Forest Regressor
@@ -188,7 +187,7 @@ def decision_tree_reg(max_depth, min_samples_leaf):
         random_state = RANDOM_STATE
     )
 
-def Lasso_reg(alpha, max_iter, tol):
+def Lasso_reg():
     """
     Lasso Regression
 
@@ -208,7 +207,7 @@ def Lasso_reg(alpha, max_iter, tol):
     sklearn.linear_model.Lasso
     """
     return Lasso(
-        alpha, max_iter, tol)
+        alpha=1.0)
 
 
 def Ridge_reg(alpha, max_iter, tol):

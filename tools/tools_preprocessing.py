@@ -45,6 +45,7 @@ class TransformerDrop(TransformerMixin, BaseEstimator):
 
     def transform(self, X, y=None):
         # Supprimer les colonnes
+        print(X)
         X = X.drop(self.to_drop, axis=1)
         return X
 
@@ -111,7 +112,10 @@ def pipeline_binary(scaling):
         Pipeline of the preprocessing with binary encoding for the stations
     """
     column_trans = ColumnTransformer(
-        [('num', scaling, QUANT_FEATURES), ('cat_binary', ce.BinaryEncoder(), ['gare_depart', 'gare_arrivee']), ('cat_oh', OneHotEncoder(), ['service'])])
+        [('num', scaling, QUANT_FEATURES),
+         ('cat_binary', ce.BinaryEncoder(),
+          ['gare_depart', 'gare_arrivee']),
+          ('cat_oh', OneHotEncoder(), ['service'])])
     pipe = make_pipeline(dropped(), column_trans)
     return pipe
 
@@ -132,7 +136,7 @@ def coords_encoding(Dataset, colonnes):
     dataset_to_encode : pandas.core.frame.DataFrame
         Dataset with the chosen columns encoded as their geographical coordiantes
     """
-    L = load_coords(Path='./Data/Coords.pickle')
+    load = load_coords(path='./Data/Coords.pickle')
     dataset_to_encod = Dataset
 
     gare_depart_coord_x = []
@@ -142,15 +146,17 @@ def coords_encoding(Dataset, colonnes):
 
     for j in range(len(dataset_to_encod[colonnes[0]])):
 
-        gare_depart_coord_x.append(L[dataset_to_encod[colonnes[0]][j]][0])
-        gare_depart_coord_y.append(L[dataset_to_encod[colonnes[0]][j]][1])
-        gare_arrivee_coord_x.append(L[dataset_to_encod[colonnes[1]][j]][0])
-        gare_arrivee_coord_y.append(L[dataset_to_encod[colonnes[1]][j]][1])
+        gare_depart_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[0]]][0])
+        gare_depart_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[0]]][1])
+        gare_arrivee_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[1]]][0])
+        gare_arrivee_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[1]]][1])
 
     dataset_to_encod['gare_depart_coord_x'] = gare_depart_coord_x
     dataset_to_encod['gare_depart_coord_y'] = gare_depart_coord_y
     dataset_to_encod['gare_arrivee_coord_x'] = gare_arrivee_coord_x
     dataset_to_encod['gare_arrivee_coord_y'] = gare_arrivee_coord_y
+    # TODO change place
+    dataset_to_encod['date'] = dataset_to_encod["date"].dt.month
 
     del dataset_to_encod[colonnes[1]]
     del dataset_to_encod[colonnes[0]]
