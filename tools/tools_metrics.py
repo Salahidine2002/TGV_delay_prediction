@@ -30,10 +30,10 @@ def compute_mse(y_test, y_predicted):
 
     Parameters
     ----------
-    y_test : TODO
+    y_test : numpy.ndarray
         Feature to predict.
 
-    y_predicted : TODO
+    y_predicted : numpy.ndarray
         Feature predicted.
 
     Returns
@@ -59,8 +59,20 @@ def compute_rmse(mse):
     """
     return sqrt(mse)
 
-def compute_r2(y_true, y_pred):
+def compute_r2(y_test, y_predicted):
     """
-    TODO docstring
+    Compute R2 score.
+
+    Parameters
+    ----------
+    y_test : numpy.ndarray
+        Feature to predict.
+
+    y_predicted : numpy.ndarray
+        Feature predicted.
+
+    Returns
+    -------
+    r2_score : float
     """
-    return r2_score(y_true, y_pred)
+    return r2_score(y_test, y_predicted)

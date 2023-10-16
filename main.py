@@ -34,7 +34,8 @@ from tools.tools_database import (
     remove_outliers
 )
 from tools.tools_metrics import (
-    compute_mse
+    compute_mse,
+    compute_r2
 )
 from tools.tools_models import *
 from tools.tools_preprocessing import (
@@ -91,3 +92,8 @@ mse = compute_mse(
     y_test=test_set[DELAY_FEATURE]
 )
 print(mse)
+r2_score = compute_r2(
+    y_predicted=y_predicted,
+    y_test=test_set[DELAY_FEATURE]
+)
+print(r2_score)
