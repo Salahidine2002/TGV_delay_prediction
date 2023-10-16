@@ -37,3 +37,8 @@ quant_features = ['duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_
 
 dropped_cols = ['commentaire_annulation',
                 'commentaire_retards_depart', 'commentaires_retard_arrivee']
+
+alph = 1.0
+tolerance = 0.0001
+iter_max = 1000
+l1_ratio = 0.5
