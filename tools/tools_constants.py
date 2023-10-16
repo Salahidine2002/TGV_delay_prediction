@@ -31,3 +31,9 @@ LIST_CAUSE_FEATURES = [
     "prct_cause_materiel_roulant",
     "prct_cause_prise_en_charge_voyageurs",
 ]
+
+quant_features = ['duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_depart_retard',
+                  'retard_moyen_depart', 'retard_moyen_tous_trains_depart', 'nb_train_retard_arrivee']
+
+dropped_cols = ['commentaire_annulation',
+                'commentaire_retards_depart', 'commentaires_retard_arrivee']
