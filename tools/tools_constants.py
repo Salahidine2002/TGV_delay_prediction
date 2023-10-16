@@ -34,3 +34,7 @@ LIST_CAUSE_FEATURES = [
     "prct_cause_materiel_roulant",
     "prct_cause_prise_en_charge_voyageurs",
 ]
+
+### Others ###
+
+RANDOM_STATE = 42
