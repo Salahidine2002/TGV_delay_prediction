@@ -16,6 +16,8 @@ from sklearn.pipeline import make_pipeline
 from sklearn.base import TransformerMixin, BaseEstimator
 from sklearn.compose import ColumnTransformer
 import category_encoders as ce
+from tools_constants import quant_features
+from tools_constants import dropped_cols
 
 ###############
 ### Classes ###
@@ -59,17 +61,44 @@ class Transformercolonne(TransformerMixin, BaseEstimator):
 
 
 def drop(cols_to_drop):
+    """
+    drop the useless columns of a dataset
+
+    Parameters
+    ----------
+    cols_to_drop : list of string
+        The strings are the name of the columns
+
+    Returns
+    -------
+    transformer_drop : TranformerDrop class
+        Transformer which drop the columns of a dataset
+    """
     transformer_drop = TransformerDrop(cols_to_drop)
     return transformer_drop
 
 
 def dropped():
-    return drop(['commentaire_annulation', 'commentaire_retards_depart', 'commentaires_retard_arrivee'])
+    """ call of the function drop for the columns 'dropped_cols' 
+    dropped all the columns with commentary
+    """
+    return drop(dropped_cols)
 
 
 def pipeline_binary(scaling):
-    quant_features = ['duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_depart_retard',
-                      'retard_moyen_depart', 'retard_moyen_tous_trains_depart', 'nb_train_retard_arrivee']
+    """
+    creation of the pre processing pipeline with, among others binary encoding for the stations 
+    (including also dropping the useless columns, encoding the service and normalizing the features)
+    Parameters
+    ----------
+    scaling : Transformer (class, sklearn.preprocessing)
+        Transform features by scaling them
+
+    Returns
+    -------
+    pipe : sklearn.pipeline.Make_pipeline
+        Pipeline of the preprocessing with binary encoding for the stations
+    """
     column_trans = ColumnTransformer(
         [('num', scaling, quant_features), ('cat_binary', ce.BinaryEncoder(), ['gare_depart', 'gare_arrivee']), ('cat_oh', OneHotEncoder(), ['service'])])
     pipe = make_pipeline(dropped(), column_trans)
@@ -78,35 +107,63 @@ def pipeline_binary(scaling):
 
 # fonction qui réalise la transformation du dataset et des colonnes des gare en coordonnés (x et y)
 def coords_encoding(Dataset, colonnes):
+    """
+    function which transform the name of columns (in this case it is used for stations)
+    into their geographical coordinates
+
+    Parameters
+    ----------
+    Dataset : pandas.core.frame.DataFrame
+        Dataset to encode
+
+    Returns
+    -------
+    dataset_to_encode : pandas.core.frame.DataFrame
+        Dataset with the chosen columns encoded as their geographical coordiantes
+    """
     L = Load_coords(Path='./Data/Coords.pickle')
+    dataset_to_encod = Dataset
+
     gare_depart_coord_x = []
     gare_depart_coord_y = []
     gare_arrivee_coord_x = []
     gare_arrivee_coord_y = []
 
-    for j in range(len(Dataset[colonnes[0]])):
+    for j in range(len(dataset_to_encod[colonnes[0]])):
 
-        gare_depart_coord_x.append(L[Dataset[colonnes[0]][j]][0])
-        gare_depart_coord_y.append(L[Dataset[colonnes[0]][j]][1])
-        gare_arrivee_coord_x.append(L[Dataset[colonnes[1]][j]][0])
-        gare_arrivee_coord_y.append(L[Dataset[colonnes[1]][j]][1])
+        gare_depart_coord_x.append(L[dataset_to_encod[colonnes[0]][j]][0])
+        gare_depart_coord_y.append(L[dataset_to_encod[colonnes[0]][j]][1])
+        gare_arrivee_coord_x.append(L[dataset_to_encod[colonnes[1]][j]][0])
+        gare_arrivee_coord_y.append(L[dataset_to_encod[colonnes[1]][j]][1])
 
-    Dataset['gare_depart_coord_x'] = gare_depart_coord_x
-    Dataset['gare_depart_coord_y'] = gare_depart_coord_y
-    Dataset['gare_arrivee_coord_x'] = gare_arrivee_coord_x
-    Dataset['gare_arrivee_coord_y'] = gare_arrivee_coord_y
+    dataset_to_encod['gare_depart_coord_x'] = gare_depart_coord_x
+    dataset_to_encod['gare_depart_coord_y'] = gare_depart_coord_y
+    dataset_to_encod['gare_arrivee_coord_x'] = gare_arrivee_coord_x
+    dataset_to_encod['gare_arrivee_coord_y'] = gare_arrivee_coord_y
 
-    del Dataset[colonnes[1]]
-    del Dataset[colonnes[0]]
+    del dataset_to_encod[colonnes[1]]
+    del dataset_to_encod[colonnes[0]]
 
-    return Dataset
+    return dataset_to_encod
 
 # création de la pipeline qui encode en coordonné en fonction de la methode de normalisaton
 
 
 def pipeline_coords(scaling):
-    quant_features = ['gare_depart', 'gare_arrivee', 'duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_depart_retard',
-                      'retard_moyen_depart', 'retard_moyen_tous_trains_depart', 'nb_train_retard_arrivee']
+    """
+    creation of the pre processing pipeline with, among others coordinate encoding for the stations 
+    (including also dropping the useless columns, encoding the service and normalizing the features)
+
+    Parameters
+    ----------
+    scaling : Transformer (class, sklearn.preprocessing)
+        Transform features by scaling them
+
+    Returns
+    -------
+    pipe : sklearn.pipeline.Make_pipeline
+        Pipeline of the preprocessing with geographical encoding for stations
+    """
     column_trans = ColumnTransformer(
         [('num', scaling, quant_features), ('cat_oh', OneHotEncoder(), ['service'])])
     pipe = make_pipeline(dropped(), Transformercolonne(
@@ -117,28 +174,46 @@ def pipeline_coords(scaling):
 
 
 def pipeline_minmax():
+    """ 
+    Creation of the pipeline with binary encoding for stations and MinMaxscaler scaling
+    """
     return pipeline_binary(MinMaxScaler())
 
 
 def pipeline_stand():
+    """ 
+    Creation of the pipeline with binary encoding for stations and Standardscaler scaling
+    """
     return pipeline_binary(StandardScaler())
 
 
 def pipeline_robust():
+    """ 
+    Creation of the pipeline with binary encoding for stations and Robustscaler scaling
+    """
     return pipeline_binary(RobustScaler())
 
 # Function of the pipeline with coordinate encoding
 
 
 def pipeline_coords_robust():
+    """ 
+    Creation of the pipeline with coordinate encoding for stations and Robustscaler scaling
+    """
     return pipeline_coords(RobustScaler())
 
 
 def pipeline_coords_minmax():
+    """ 
+    Creation of the pipeline with coordinate encoding for stations and MinMaxscaler scaling
+    """
     return pipeline_coords(MinMaxScaler())
 
 
 def pipeline_coords_stand():
+    """ 
+    Creation of the pipeline with coordinate encoding for stations and Standardscaler scaling
+    """
     return pipeline_coords(StandardScaler())
 
 ### Functions for data checking ###
