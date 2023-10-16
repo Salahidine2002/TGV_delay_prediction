@@ -11,6 +11,8 @@ Functions
 
 ### Module imports ###
 
+from tools.tools_preprocessing import (pipeline_coords_robust, pipeline_coords_stand,
+                                       pipeline_coords_minmax, pipeline_robust, pipeline_stand, pipeline_minmax)
 from tools.tools_analysis import (
     display_correlation_graph
 )
@@ -19,7 +21,7 @@ from tools.tools_constants import (
     DELAY_FEATURE
 )
 from tools.tools_database import (
-    read_data, 
+    read_data,
     remove_outliers
 )
 
@@ -31,17 +33,17 @@ dataset = read_data(PATH_DATASET)
 
 ### Preprocessing ###
 
-# Removing outliers 
+# Removing outliers
 
 score_threshold = 3
 dataset = remove_outliers(dataset, score_threshold)
 
-# Spliting data 
+# Spliting data
 train_set = dataset[dataset['date'].dt.year != 2023]
 test_set = dataset[dataset['date'].dt.year == 2023]
 
-# scaling
-# enlever les colonnes qui ne vont pas
+# scaling normalizing et enlever les colonnes qui ne vont pas
+pipeline = pipeline_coords_stand()
 
 ### Analysis of the correlation with features of interest ###
 
