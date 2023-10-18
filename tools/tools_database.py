@@ -28,7 +28,18 @@ def read_data(path) :
         loaded dataset.
     """
     dataset = pd.read_csv(path, delimiter=';')
+
     dataset['date'] = pd.to_datetime(dataset['date'])
+
+    # last_month_delay = []
+
+    # for j in range(len(dataset['date'])) : 
+    #     try : 
+    #         Row = dataset.iloc[j]
+    #         Frame = dataset[dataset['gare_depart']==Row['gare_depart'] & dataset['gare_arrivee']==Row['gare_arrivee'] & dataset['date'].dt.month==(Row['date'].dt.month-1)]
+    #         pass
+    #     except :
+    #         pass
     return dataset
 
 

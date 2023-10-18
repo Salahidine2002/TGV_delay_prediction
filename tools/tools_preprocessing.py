@@ -78,7 +78,7 @@ def pipeline_binary(scaling):
 
 # fonction qui réalise la transformation du dataset et des colonnes des gare en coordonnés (x et y)
 def coords_encoding(Dataset, colonnes):
-    L = Load_coords(Path='./Data/Coords.pickle')
+    L = load_coords(path='./Data/Coords.pickle')
     gare_depart_coord_x = []
     gare_depart_coord_y = []
     gare_arrivee_coord_x = []
