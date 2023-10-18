@@ -17,9 +17,12 @@ LIST_CAUSE_FEATURES : list[str]
 ### Constants ###
 #################
 
+TEST_MODE = False
+
 ### Paths ###
 
 PATH_DATASET = "Data/TGV.csv"
+PATH_FIGURES = "figures/"
 
 ### Features ###
 
@@ -31,3 +34,27 @@ LIST_CAUSE_FEATURES = [
     "prct_cause_materiel_roulant",
     "prct_cause_prise_en_charge_voyageurs",
 ]
+LIST_FEATURES_TRAINING = [
+    "duree_moyenne",
+    "nb_train_prevu",
+    "gare_depart",
+    "gare_arrivee",
+    "service",
+    "date"
+]
+
+QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu']
+
+DROPPED_COLS = ['commentaire_annulation',
+                'commentaire_retards_depart', 'commentaires_retard_arrivee']
+# TODO
+DROPPED_COLS = []
+
+### Others ###
+
+RANDOM_STATE = 42
+
+ALPH = 1.0
+TOLERANCE = 0.0001
+ITER_MAX = 1000
+L1_RATIO = 0.5

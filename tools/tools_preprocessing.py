@@ -3,19 +3,33 @@ Python module cleaning the data when necessary, after their validation.
 
 Functions
 ---------
+
+check_for_same_departure_arrival_station(Dataset)
+    Function to check if a trip as the same departure and arrival station 
+
+check_for_same_trip_in_same_month(Dataset)
+    Function to check if a trip exists twice for the same month (it should not)
 """
 
 ###############
 ### Imports ###
 ###############
 
-from tools.tools_database import *
+### Python imports ###
+
 from sklearn.preprocessing import OneHotEncoder, RobustScaler, MinMaxScaler, StandardScaler
-import pandas as pd
 from sklearn.pipeline import make_pipeline
 from sklearn.base import TransformerMixin, BaseEstimator
 from sklearn.compose import ColumnTransformer
 import category_encoders as ce
+
+### Module imports ###
+
+from tools.tools_database import *
+from tools.tools_constants import (
+    QUANT_FEATURES,
+    DROPPED_COLS
+)
 
 ###############
 ### Classes ###
@@ -31,6 +45,7 @@ class TransformerDrop(TransformerMixin, BaseEstimator):
 
     def transform(self, X, y=None):
         # Supprimer les colonnes
+        print(X)
         X = X.drop(self.to_drop, axis=1)
         return X
 
@@ -57,58 +72,117 @@ class Transformercolonne(TransformerMixin, BaseEstimator):
 
 ### Functions for encoding and normalisation ###
 
-
 def drop(cols_to_drop):
+    """
+    drop the useless columns of a dataset
+
+    Parameters
+    ----------
+    cols_to_drop : list of string
+        The strings are the name of the columns
+
+    Returns
+    -------
+    transformer_drop : TranformerDrop class
+        Transformer which drop the columns of a dataset
+    """
     transformer_drop = TransformerDrop(cols_to_drop)
     return transformer_drop
 
 
 def dropped():
-    return drop(['commentaire_annulation', 'commentaire_retards_depart', 'commentaires_retard_arrivee'])
+    """ call of the function drop for the columns 'dropped_cols' 
+    dropped all the columns with commentary
+    """
+    return drop(DROPPED_COLS)
 
 
 def pipeline_binary(scaling):
-    quant_features = ['duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_depart_retard',
-                      'retard_moyen_depart', 'retard_moyen_tous_trains_depart', 'nb_train_retard_arrivee']
+    """
+    creation of the pre processing pipeline with, among others binary encoding for the stations 
+    (including also dropping the useless columns, encoding the service and normalizing the features)
+    Parameters
+    ----------
+    scaling : Transformer (class, sklearn.preprocessing)
+        Transform features by scaling them
+
+    Returns
+    -------
+    pipe : sklearn.pipeline.Make_pipeline
+        Pipeline of the preprocessing with binary encoding for the stations
+    """
     column_trans = ColumnTransformer(
-        [('num', scaling, quant_features), ('cat_binary', ce.BinaryEncoder(), ['gare_depart', 'gare_arrivee']), ('cat_oh', OneHotEncoder(), ['service'])])
+        [('num', scaling, QUANT_FEATURES),
+         ('cat_binary', ce.BinaryEncoder(),
+          ['gare_depart', 'gare_arrivee']),
+          ('cat_oh', OneHotEncoder(), ['service'])])
     pipe = make_pipeline(dropped(), column_trans)
     return pipe
 
 
-# fonction qui réalise la transformation du dataset et des colonnes des gare en coordonnés (x et y)
+# fonction qui réalise la transformation du dataset et des colonnes des gare en coordonnées (x et y)
 def coords_encoding(Dataset, colonnes):
-    L = load_coords(path='./Data/Coords.pickle')
+    """
+    function which transform the name of columns (in this case it is used for stations)
+    into their geographical coordinates
+
+    Parameters
+    ----------
+    Dataset : pandas.core.frame.DataFrame
+        Dataset to encode
+
+    Returns
+    -------
+    dataset_to_encode : pandas.core.frame.DataFrame
+        Dataset with the chosen columns encoded as their geographical coordiantes
+    """
+    load = load_coords(path='./Data/Coords.pickle')
+    dataset_to_encod = Dataset
+
     gare_depart_coord_x = []
     gare_depart_coord_y = []
     gare_arrivee_coord_x = []
     gare_arrivee_coord_y = []
 
-    for j in range(len(Dataset[colonnes[0]])):
+    for j in range(len(dataset_to_encod[colonnes[0]])):
 
-        gare_depart_coord_x.append(L[Dataset[colonnes[0]][j]][0])
-        gare_depart_coord_y.append(L[Dataset[colonnes[0]][j]][1])
-        gare_arrivee_coord_x.append(L[Dataset[colonnes[1]][j]][0])
-        gare_arrivee_coord_y.append(L[Dataset[colonnes[1]][j]][1])
+        gare_depart_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[0]]][0])
+        gare_depart_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[0]]][1])
+        gare_arrivee_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[1]]][0])
+        gare_arrivee_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[1]]][1])
 
-    Dataset['gare_depart_coord_x'] = gare_depart_coord_x
-    Dataset['gare_depart_coord_y'] = gare_depart_coord_y
-    Dataset['gare_arrivee_coord_x'] = gare_arrivee_coord_x
-    Dataset['gare_arrivee_coord_y'] = gare_arrivee_coord_y
+    dataset_to_encod['gare_depart_coord_x'] = gare_depart_coord_x
+    dataset_to_encod['gare_depart_coord_y'] = gare_depart_coord_y
+    dataset_to_encod['gare_arrivee_coord_x'] = gare_arrivee_coord_x
+    dataset_to_encod['gare_arrivee_coord_y'] = gare_arrivee_coord_y
+    # TODO change place
+    dataset_to_encod['date'] = dataset_to_encod["date"].dt.month
 
-    del Dataset[colonnes[1]]
-    del Dataset[colonnes[0]]
+    del dataset_to_encod[colonnes[1]]
+    del dataset_to_encod[colonnes[0]]
 
-    return Dataset
+    return dataset_to_encod
 
 # création de la pipeline qui encode en coordonné en fonction de la methode de normalisaton
 
 
 def pipeline_coords(scaling):
-    quant_features = ['gare_depart', 'gare_arrivee', 'duree_moyenne', 'nb_train_prevu', 'nb_annulation', 'nb_train_depart_retard',
-                      'retard_moyen_depart', 'retard_moyen_tous_trains_depart', 'nb_train_retard_arrivee']
+    """
+    creation of the pre processing pipeline with, among others coordinate encoding for the stations 
+    (including also dropping the useless columns, encoding the service and normalizing the features)
+
+    Parameters
+    ----------
+    scaling : Transformer (class, sklearn.preprocessing)
+        Transform features by scaling them
+
+    Returns
+    -------
+    pipe : sklearn.pipeline.Make_pipeline
+        Pipeline of the preprocessing with geographical encoding for stations
+    """
     column_trans = ColumnTransformer(
-        [('num', scaling, quant_features), ('cat_oh', OneHotEncoder(), ['service'])])
+        [('num', scaling, QUANT_FEATURES), ('cat_oh', OneHotEncoder(), ['service'])])
     pipe = make_pipeline(dropped(), Transformercolonne(
         ['gare_depart', 'gare_arrivee']), column_trans)
     return pipe
@@ -117,28 +191,46 @@ def pipeline_coords(scaling):
 
 
 def pipeline_minmax():
+    """ 
+    Creation of the pipeline with binary encoding for stations and MinMaxscaler scaling
+    """
     return pipeline_binary(MinMaxScaler())
 
 
 def pipeline_stand():
+    """ 
+    Creation of the pipeline with binary encoding for stations and Standardscaler scaling
+    """
     return pipeline_binary(StandardScaler())
 
 
 def pipeline_robust():
+    """ 
+    Creation of the pipeline with binary encoding for stations and Robustscaler scaling
+    """
     return pipeline_binary(RobustScaler())
 
 # Function of the pipeline with coordinate encoding
 
 
 def pipeline_coords_robust():
+    """ 
+    Creation of the pipeline with coordinate encoding for stations and Robustscaler scaling
+    """
     return pipeline_coords(RobustScaler())
 
 
 def pipeline_coords_minmax():
+    """ 
+    Creation of the pipeline with coordinate encoding for stations and MinMaxscaler scaling
+    """
     return pipeline_coords(MinMaxScaler())
 
 
 def pipeline_coords_stand():
+    """ 
+    Creation of the pipeline with coordinate encoding for stations and Standardscaler scaling
+    """
     return pipeline_coords(StandardScaler())
 
 ### Functions for data checking ###
@@ -147,8 +239,18 @@ def pipeline_coords_stand():
 def check_for_same_departure_arrival_station(Dataset):
     """
     Function to check if a trip as the same departure and arrival station 
+
+    Parameters
     ----------
+    dataset : pandas.core.frame.DataFrame
+        Dataset where to analyse the correlation.
+
+    Returns
+    -------
+    same_station :list
+        list of ligne number of trips with same departure and arrival station
     """
+
     same_station = []
     for ligne in range(0, len(Dataset)-1):
         if (Dataset["gare_depart"][ligne] == Dataset["gare_arrivee"][ligne]):
@@ -159,18 +261,25 @@ def check_for_same_departure_arrival_station(Dataset):
 def check_for_same_trip_in_same_month(Dataset):
     """
     Function to check if a trip exists twice for the same month (it should not)
+
+    Parameters
     ----------
+    dataset : pandas.core.frame.DataFrame
+        Dataset where to analyse the correlation.
+
+    Returns
+    -------
+    same_trip :list
+        list of ligne number of same trips within one month
     """
     ma_list = []
     same_trip = []
     for ligne in range(len(Dataset)):
         ma_list.append([ligne, Dataset["date"].dt.to_period(
             'M')[ligne], Dataset["gare_depart"][ligne], Dataset["gare_arrivee"][ligne]])
-    # print(len(ma_list))
 
     for i in range(0, len(ma_list)):
         for j in range(i+1, len(ma_list)):
             if ((ma_list[i][2] == ma_list[j][2]) and (ma_list[i][3] == ma_list[j][3]) and (ma_list[i][1] == ma_list[j][1])):
-                # if ( ma_list[i][1] == ma_list[j][1]):
                 same_trip.append(ma_list[i], ma_list[j])
     return (same_trip)
