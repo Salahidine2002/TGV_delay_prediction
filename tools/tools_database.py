@@ -312,4 +312,30 @@ def remove_outliers(dataset, threshold) :
     return dataset
 
 
+def last_month_column(dataset):
+
+    """
+    Adds a column for the arrival delays of the last month to each row
+
+    Parameters
+    ----------
+    dataset : pandas.core.frame.DataFrame
+        Dataset that contains all the possible trajects.
+    """
+
+    last_month_delay = []
+
+    for j in range(len(dataset['date'])) :
+        Row = dataset.iloc[j]
+        Frame = dataset[dataset['gare_depart']==Row['gare_depart']]
+        Frame = Frame[Frame['gare_arrivee']==Row['gare_arrivee']]
+        Index = np.where(Frame["date"] == Row['date'])[0][0]
+        if Index>0 : 
+            last_month_delay.append(Frame.iloc[Index-1]['retard_moyen_arrivee'])
+        else : 
+            last_month_delay.append(0)
+
+    dataset['retard_mois_prec'] = last_month_delay
+
+
         
