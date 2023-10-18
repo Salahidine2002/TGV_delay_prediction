@@ -29,7 +29,8 @@ random_forest
 ### Python imports ###
 
 from sklearn.linear_model import (
-    SGDRegressor
+    SGDRegressor,
+    LinearRegression
 )
 
 from sklearn.ensemble import (
@@ -55,6 +56,11 @@ from tools.tools_constants import (
 
 def sgd_regressor():
     return SGDRegressor(
+        random_state=RANDOM_STATE
+    )
+
+def linear_regression():
+    return LinearRegression(
         random_state=RANDOM_STATE
     )
 
@@ -97,7 +103,7 @@ def HGBR(max_iter, max_depth, min_samples_leaf):
         maximum nuber of iterations of the boosting process
     
     max_depth : int or None
-        Maximum depth off each tree
+        Maximum depth of each tree
 
     min_samples_leaf : int
         The minimum number of samples per leaf
@@ -123,7 +129,7 @@ def random_forest(n_estim, max_depth, min_samples_leaf):
         number of trees in the forest
     
     max_depth : int or None
-        Maximum depth off the tree
+        Maximum depth of the tree
 
     min_samples_leaf : int
         The minimum number of samples required to be a leaf node
@@ -133,9 +139,9 @@ def random_forest(n_estim, max_depth, min_samples_leaf):
     RandomForestRegressor from sklearn.ensemble
     """
     return RandomForestRegressor(
-        n_estimators= n_estim,
-        max_depth= max_depth,
-        min_samples_leaf= min_samples_leaf,
+        n_estimators = n_estim,
+        max_depth = max_depth,
+        min_samples_leaf = min_samples_leaf,
         random_state = RANDOM_STATE
     )
 

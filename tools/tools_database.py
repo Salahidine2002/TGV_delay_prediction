@@ -326,16 +326,16 @@ def last_month_column(dataset):
     last_month_delay = []
 
     for j in range(len(dataset['date'])) :
-        Row = dataset.iloc[j]
-        Frame = dataset[dataset['gare_depart']==Row['gare_depart']]
-        Frame = Frame[Frame['gare_arrivee']==Row['gare_arrivee']]
-        Index = np.where(Frame["date"] == Row['date'])[0][0]
-        if Index>0 : 
-            last_month_delay.append(Frame.iloc[Index-1]['retard_moyen_arrivee'])
-        else : 
+        row = dataset.iloc[j]
+        frame = dataset[dataset['gare_depart']==row['gare_depart']]
+        frame = frame[frame['gare_arrivee']==row['gare_arrivee']]
+        index = np.where(frame["date"] == row['date'])[0][0]
+        if index > 0:
+            last_month_delay.append(frame.iloc[index-1]['retard_moyen_arrivee'])
+        else:
             last_month_delay.append(0)
 
     dataset['retard_mois_prec'] = last_month_delay
 
-
+    return dataset
         

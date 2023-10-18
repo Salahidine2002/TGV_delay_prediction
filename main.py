@@ -35,6 +35,7 @@ from tools.tools_database import (
 )
 from tools.tools_metrics import (
     compute_mse,
+    compute_rmse,
     compute_r2
 )
 from tools.tools_models import *
@@ -78,9 +79,12 @@ if TEST_MODE:
 ### Training ###
 
 # Create the pipeline with the model
-# model1 = Lasso_reg(ALPH, ITER_MAX, TOLERANCE)
 model1 = Lasso_reg()
-complete_pipeline = make_pipeline(pipeline1, model1)
+model_sgd_regressor = sgd_regressor()
+model_linear_regression = sgd_regressor()
+model_dt = decision_tree_reg(max_depth=7, min_samples_leaf=4)
+model_rf = random_forest(n_estim=100, max_depth=7, min_samples_leaf=8)
+complete_pipeline = make_pipeline(pipeline1, model_linear_regression)
 
 complete_pipeline.fit(train_set[LIST_FEATURES_TRAINING], train_set[DELAY_FEATURE])
 y_predicted = complete_pipeline.predict(test_set[LIST_FEATURES_TRAINING])
@@ -92,6 +96,10 @@ mse = compute_mse(
     y_test=test_set[DELAY_FEATURE]
 )
 print(mse)
+rmse = compute_rmse(
+    mse=mse
+)
+print(rmse)
 r2_score = compute_r2(
     y_predicted=y_predicted,
     y_test=test_set[DELAY_FEATURE]

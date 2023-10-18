@@ -62,7 +62,9 @@ class Transformercolonne(TransformerMixin, BaseEstimator):
         return self
 
     def transform(self, X, y=None):
-        # Supprimer les colonnes
+        # # Add the colummn of the predictions from last month
+        # X = last_month_column(X)
+        # Encode the coordinates of the train stations
         X = coords_encoding(X, self.to_transform)
         return X
 
