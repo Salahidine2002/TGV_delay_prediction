@@ -68,7 +68,7 @@ dataset = last_month_column(dataset)
 
 # Spliting data
 train_set = dataset[dataset['date'].dt.year != 2023]
-# train_set = train_set[train_set["retard_mois_prec"] != 0]
+train_set = train_set[train_set["retard_mois_prec"] != 0]
 test_set = dataset[dataset['date'].dt.year == 2023]
 
 # Scale, normalize and remove the wrong columns
