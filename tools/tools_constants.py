@@ -41,15 +41,14 @@ LIST_FEATURES_TRAINING = [
     "gare_arrivee",
     "service",
     "date",
-    "retard_mois_prec"
+    "retard_moyen_arrivee"
 ]
 
 QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu']
 
-DROPPED_COLS = ['commentaire_annulation',
-                'commentaire_retards_depart', 'commentaires_retard_arrivee']
-# TODO
-DROPPED_COLS = []
+DROPPED_COLS = [
+    "retard_moyen_arrivee"
+]
 
 ### Others ###
 

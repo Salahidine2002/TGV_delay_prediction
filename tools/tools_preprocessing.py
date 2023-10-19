@@ -45,8 +45,11 @@ class TransformerDrop(TransformerMixin, BaseEstimator):
 
     def transform(self, X, y=None):
         # Supprimer les colonnes
+        X = last_month_column(X)
         print(X)
+        print(self.to_drop)
         X = X.drop(self.to_drop, axis=1)
+        print(X)
         return X
 
 # classe pour definir le transformer qui transforme les noms des gares
@@ -73,6 +76,7 @@ class Transformercolonne(TransformerMixin, BaseEstimator):
 #################
 
 ### Functions for encoding and normalisation ###
+
 
 def drop(cols_to_drop):
     """
@@ -117,7 +121,7 @@ def pipeline_binary(scaling):
         [('num', scaling, QUANT_FEATURES),
          ('cat_binary', ce.BinaryEncoder(),
           ['gare_depart', 'gare_arrivee']),
-          ('cat_oh', OneHotEncoder(), ['service'])])
+         ('cat_oh', OneHotEncoder(), ['service'])])
     pipe = make_pipeline(dropped(), column_trans)
     return pipe
 
@@ -148,10 +152,14 @@ def coords_encoding(Dataset, colonnes):
 
     for j in range(len(dataset_to_encod[colonnes[0]])):
 
-        gare_depart_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[0]]][0])
-        gare_depart_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[0]]][1])
-        gare_arrivee_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[1]]][0])
-        gare_arrivee_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[1]]][1])
+        gare_depart_coord_x.append(
+            load[dataset_to_encod.iloc[j][colonnes[0]]][0])
+        gare_depart_coord_y.append(
+            load[dataset_to_encod.iloc[j][colonnes[0]]][1])
+        gare_arrivee_coord_x.append(
+            load[dataset_to_encod.iloc[j][colonnes[1]]][0])
+        gare_arrivee_coord_y.append(
+            load[dataset_to_encod.iloc[j][colonnes[1]]][1])
 
     dataset_to_encod['gare_depart_coord_x'] = gare_depart_coord_x
     dataset_to_encod['gare_depart_coord_y'] = gare_depart_coord_y
