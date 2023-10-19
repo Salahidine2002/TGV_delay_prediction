@@ -39,8 +39,9 @@ LIST_FEATURES_TRAINING = [
     "nb_train_prevu",
     "gare_depart",
     "gare_arrivee",
-    "service",
-    "date"
+    # "service",
+    "date",
+    "retard_mois_prec"
 ]
 
 QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu']
