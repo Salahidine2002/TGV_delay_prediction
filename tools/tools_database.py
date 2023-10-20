@@ -5,15 +5,14 @@ Functions
 ---------
 """
 import pandas as pd
-import numpy as np 
+import numpy as np
 import pickle
 import folium
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 
 
-
-def read_data(path) : 
+def read_data(path):
     """
     Reads the data from a csv file's path.
 
@@ -33,8 +32,8 @@ def read_data(path) :
 
     # last_month_delay = []
 
-    # for j in range(len(dataset['date'])) : 
-    #     try : 
+    # for j in range(len(dataset['date'])) :
+    #     try :
     #         Row = dataset.iloc[j]
     #         Frame = dataset[dataset['gare_depart']==Row['gare_depart'] & dataset['gare_arrivee']==Row['gare_arrivee'] & dataset['date'].dt.month==(Row['date'].dt.month-1)]
     #         pass
@@ -43,8 +42,7 @@ def read_data(path) :
     return dataset
 
 
-def load_coords(path='./Data/Coords.pickle') : 
-
+def load_coords(path='./Data/Coords.pickle'):
     """
     Loads the dictionary where we stored the spherical coordinates of each station.
 
@@ -63,8 +61,8 @@ def load_coords(path='./Data/Coords.pickle') :
 
     return station_coordinates
 
-def build_network(station_coordinates, dataset, s) : 
 
+def build_network(station_coordinates, dataset, s):
     """
     Construct the adjacency matrix of all stations in our dataset and the existing trajects.
 
@@ -82,17 +80,17 @@ def build_network(station_coordinates, dataset, s) :
     network : numpy ndrray 
         Adjacency matrix of all the stations network.
     """
-    network = np.zeros((len(station_coordinates), len(station_coordinates))) 
+    network = np.zeros((len(station_coordinates), len(station_coordinates)))
 
-    for i in range(len(network)) :
-        for j in range(i) : 
-            if len(dataset[dataset['gare_depart']==s[i]][dataset['gare_arrivee']==s[j]]) or  len(dataset[dataset['gare_depart']==s[j]][dataset['gare_arrivee']==s[i]]): 
+    for i in range(len(network)):
+        for j in range(i):
+            if len(dataset[dataset['gare_depart'] == s[i]][dataset['gare_arrivee'] == s[j]]) or len(dataset[dataset['gare_depart'] == s[j]][dataset['gare_arrivee'] == s[i]]):
                 network[i, j], network[j, i] = 1, 1
 
     return network
 
-def display_map(zoom=5): 
 
+def display_map(zoom=5):
     """
     Construct the initial map centred around France.
 
@@ -109,10 +107,10 @@ def display_map(zoom=5):
 
     france_map = folium.Map(location=[46.603354, 1.888334], zoom_start=zoom)
 
-    return france_map 
+    return france_map
 
-def add_map_markers(map, markers_coords) : 
 
+def add_map_markers(map, markers_coords):
     """
     Adds a layer of markers (in the specified coordinates) on the given map in the parameters.
 
@@ -129,8 +127,7 @@ def add_map_markers(map, markers_coords) :
         folium.Marker(location=coordinates, popup=station).add_to(map)
 
 
-def add_map_routes(map, network, station_coordinates, s) : 
-
+def add_map_routes(map, network, station_coordinates, s):
     """
     Adds a layer of lines for each traject in the network on the given map in the parameters.
 
@@ -147,15 +144,16 @@ def add_map_routes(map, network, station_coordinates, s) :
 
     """
 
-    for i in range(len(s)) : 
-        for j in range(i) : 
-            if network[i, j] : 
-                coordinates = [station_coordinates[s[i]], station_coordinates[s[j]]]
-                folium.PolyLine(locations=coordinates, color='black', weight=1).add_to(map)
+    for i in range(len(s)):
+        for j in range(i):
+            if network[i, j]:
+                coordinates = [station_coordinates[s[i]],
+                               station_coordinates[s[j]]]
+                folium.PolyLine(locations=coordinates,
+                                color='black', weight=1).add_to(map)
 
-    
 
-def display_network(dataset) : 
+def display_network(dataset):
     """
     displays the network of all the trajects specified in the dataset on a map 
 
@@ -172,20 +170,19 @@ def display_network(dataset) :
 
     station_coordinates = load_coords()
     s = list(station_coordinates.keys())
-    
+
     network = build_network(station_coordinates, dataset, s)
 
     france_map = display_map(5)
-    
-    add_map_markers(france_map, station_coordinates) 
+
+    add_map_markers(france_map, station_coordinates)
 
     add_map_routes(france_map, network, station_coordinates, s)
 
-    return france_map 
+    return france_map
 
 
-def display_map_delays(dataset, column='delay') : 
-
+def display_map_delays(dataset, column='delay'):
     """
     displays the means of one column with respect to each station on a map 
 
@@ -195,7 +192,7 @@ def display_map_delays(dataset, column='delay') :
         Dataset that contains all the possible trajects.
     column : str 
         The numeric feature to display
-    
+
     Returns
     -------
     france_map : 
@@ -209,36 +206,36 @@ def display_map_delays(dataset, column='delay') :
 
     delays = []
 
-    for station in s : 
+    for station in s:
 
-        frame = dataset[dataset['gare_arrivee']==station]
+        frame = dataset[dataset['gare_arrivee'] == station]
 
-        if column=='delay' : 
-            delays.append(np.mean(frame['retard_moyen_arrivee']/frame['duree_moyenne']))
-        else : 
+        if column == 'delay':
+            delays.append(
+                np.mean(frame['retard_moyen_arrivee']/frame['duree_moyenne']))
+        else:
             delays.append(np.mean(frame[column]))
 
     scaler = MinMaxScaler(feature_range=(0, 1))
     delays = scaler.fit_transform(np.array(delays).reshape(-1, 1))
 
-    radius = 70000*delays.flatten() 
+    radius = 70000*delays.flatten()
 
-    for i in range(len(s)) : 
+    for i in range(len(s)):
         folium.Circle(
             location=station_coordinates[s[i]],
             radius=radius[i],
             color='blue',  # Circle border color
-            weight=1,  
+            weight=1,
             fill=True,
             fill_color='blue',  # Circle fill color
             fill_opacity=0.1,   # Opacity of the fill color
         ).add_to(france_map)
 
-    return france_map 
+    return france_map
 
 
-def box_plot_months(dataset, gare_dep, gare_arr, column) : 
-
+def box_plot_months(dataset, gare_dep, gare_arr, column):
     """
     The delay's (or any other numerical feature) box plot on one traject with respect to months 
 
@@ -252,28 +249,28 @@ def box_plot_months(dataset, gare_dep, gare_arr, column) :
         Name of arriving train station 
     column : str 
         Numerical feature to plot
-    
+
     """
 
     data = []
     months = np.unique(dataset['date'].dt.month)
 
-    for month in months: 
+    for month in months:
 
-        frame = dataset[dataset['gare_depart']==gare_dep]
-        frame = frame[frame['gare_arrivee']==gare_arr]
-        frame = frame[frame['date'].dt.month==month]
+        frame = dataset[dataset['gare_depart'] == gare_dep]
+        frame = frame[frame['gare_arrivee'] == gare_arr]
+        frame = frame[frame['date'].dt.month == month]
 
-        data.append(np.array(frame[column])) 
-        
+        data.append(np.array(frame[column]))
+
     plt.boxplot(data, labels=months)
     plt.xlabel('Months')
     plt.ylabel(column)
     plt.title(f'Traject {gare_dep} / {gare_arr}')
     plt.show()
 
-def histograms(dataset, columns) :
 
+def histograms(dataset, columns):
     """
     Displays the histograms of one or multiple numerical features
 
@@ -283,14 +280,14 @@ def histograms(dataset, columns) :
         Dataset that contains all the possible trajects.
     column : list 
     List of the numerical features to plot their histograms 
-    
+
     """
 
     dataset[columns].hist(figsize=(20, 20), bins=100)
     plt.show()
 
-def remove_outliers(dataset, threshold) :
 
+def remove_outliers(dataset, threshold):
     """
     Removes the oultiers rows with respect to the difference between arival and departure delays
 
@@ -307,13 +304,11 @@ def remove_outliers(dataset, threshold) :
     std = np.std(np.array(Col))
 
     Z_score = abs(np.array((Col-mean)/std))
-
-    dataset = dataset[Z_score<threshold]
+    dataset = dataset[Z_score < threshold]
     return dataset
 
 
 def last_month_column(dataset):
-
     """
     Adds a column for the arrival delays of the last month to each row
 
@@ -325,17 +320,17 @@ def last_month_column(dataset):
 
     last_month_delay = []
 
-    for j in range(len(dataset['date'])) :
-        Row = dataset.iloc[j]
-        Frame = dataset[dataset['gare_depart']==Row['gare_depart']]
-        Frame = Frame[Frame['gare_arrivee']==Row['gare_arrivee']]
-        Index = np.where(Frame["date"] == Row['date'])[0][0]
-        if Index>0 : 
-            last_month_delay.append(Frame.iloc[Index-1]['retard_moyen_arrivee'])
-        else : 
+    for j in range(len(dataset['date'])):
+        row = dataset.iloc[j]
+        frame = dataset[dataset['gare_depart'] == row['gare_depart']]
+        frame = frame[frame['gare_arrivee'] == row['gare_arrivee']]
+        index = np.where(frame["date"] == row['date'])[0][0]
+        if index > 0:
+            last_month_delay.append(
+                frame.iloc[index-1]['retard_moyen_arrivee'])
+        else:
             last_month_delay.append(0)
 
     dataset['retard_mois_prec'] = last_month_delay
 
-
-        
+    return dataset

@@ -28,7 +28,9 @@ import category_encoders as ce
 from tools.tools_database import *
 from tools.tools_constants import (
     QUANT_FEATURES,
-    DROPPED_COLS
+    DROPPED_COLS,
+    FEATURES_TO_PASS_COORD,
+    FEATURES_TO_PASS_BINARY
 )
 
 ###############
@@ -36,25 +38,32 @@ from tools.tools_constants import (
 ###############
 
 
-class TransformerDrop(TransformerMixin, BaseEstimator):
-    def __init__(self, to_drop):
-        self.to_drop = to_drop
+class Transformer_date_prevmonth_outlier(TransformerMixin, BaseEstimator):
+    """ Convert date to month and add a new column which give the delay of 
+    the train of the past month (outlier is not added to the transformer yet)
+    """
+
+    def __init__(self):
+        return
 
     def fit(self, X, y=None):
         return self
 
     def transform(self, X, y=None):
-        # Supprimer les colonnes
-        print(X)
-        X = X.drop(self.to_drop, axis=1)
+        X = last_month_column(X)
+        X["date"] = X["date"].dt.month
         return X
 
-# classe pour definir le transformer qui transforme les noms des gares
-# en coordonnées x et y donc 2 features pour les gares d'entrée et 2 autres pour les gares de sortie
-# L'utilisation de la class est pour pouvoir l'inclure par la suite dans la pipeline
 
+class Transformer_gare(TransformerMixin, BaseEstimator):
+    """Encode station as their geographical coordinates (x and y)
+    In place of having 2 columns after transformation we have 4 columns
 
-class Transformercolonne(TransformerMixin, BaseEstimator):
+    Parameter:
+        to_transform : list
+            a list of columns to encode as their coordinates
+    """
+
     def __init__(self, to_transform):
         self.to_transform = to_transform
 
@@ -62,8 +71,28 @@ class Transformercolonne(TransformerMixin, BaseEstimator):
         return self
 
     def transform(self, X, y=None):
-        # Supprimer les colonnes
         X = coords_encoding(X, self.to_transform)
+        return X
+
+
+class passing(TransformerMixin, BaseEstimator):
+    """This class doesn't apply any transformation. It only conserve the
+    features that are not rescaled or ecoded but still wished on the pipeline
+    as training data for fitting the model
+
+    Parameter:
+        to_pass : list
+            a list of columns to be kept for fitting the model
+    """
+
+    def __init__(self, to_pass):
+        self.to_pass = to_pass
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X, y=None):
+
         return X
 
 #################
@@ -71,30 +100,6 @@ class Transformercolonne(TransformerMixin, BaseEstimator):
 #################
 
 ### Functions for encoding and normalisation ###
-
-def drop(cols_to_drop):
-    """
-    drop the useless columns of a dataset
-
-    Parameters
-    ----------
-    cols_to_drop : list of string
-        The strings are the name of the columns
-
-    Returns
-    -------
-    transformer_drop : TranformerDrop class
-        Transformer which drop the columns of a dataset
-    """
-    transformer_drop = TransformerDrop(cols_to_drop)
-    return transformer_drop
-
-
-def dropped():
-    """ call of the function drop for the columns 'dropped_cols' 
-    dropped all the columns with commentary
-    """
-    return drop(DROPPED_COLS)
 
 
 def pipeline_binary(scaling):
@@ -112,11 +117,8 @@ def pipeline_binary(scaling):
         Pipeline of the preprocessing with binary encoding for the stations
     """
     column_trans = ColumnTransformer(
-        [('num', scaling, QUANT_FEATURES),
-         ('cat_binary', ce.BinaryEncoder(),
-          ['gare_depart', 'gare_arrivee']),
-          ('cat_oh', OneHotEncoder(), ['service'])])
-    pipe = make_pipeline(dropped(), column_trans)
+        [("num", scaling, QUANT_FEATURES), ("cat_oh", OneHotEncoder(), ["service"]), ("cat_bin", ce.BinaryEncoder(), ["gare_depart", "gare_arrivee"]), ("pass", passing(FEATURES_TO_PASS_BINARY), FEATURES_TO_PASS_BINARY)])
+    pipe = make_pipeline(Transformer_date_prevmonth_outlier(), column_trans)
     return pipe
 
 
@@ -136,7 +138,7 @@ def coords_encoding(Dataset, colonnes):
     dataset_to_encode : pandas.core.frame.DataFrame
         Dataset with the chosen columns encoded as their geographical coordiantes
     """
-    load = load_coords(path='./Data/Coords.pickle')
+    load = load_coords(path="./Data/Coords.pickle")
     dataset_to_encod = Dataset
 
     gare_depart_coord_x = []
@@ -146,17 +148,19 @@ def coords_encoding(Dataset, colonnes):
 
     for j in range(len(dataset_to_encod[colonnes[0]])):
 
-        gare_depart_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[0]]][0])
-        gare_depart_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[0]]][1])
-        gare_arrivee_coord_x.append(load[dataset_to_encod.iloc[j][colonnes[1]]][0])
-        gare_arrivee_coord_y.append(load[dataset_to_encod.iloc[j][colonnes[1]]][1])
+        gare_depart_coord_x.append(
+            load[dataset_to_encod.iloc[j][colonnes[0]]][0])
+        gare_depart_coord_y.append(
+            load[dataset_to_encod.iloc[j][colonnes[0]]][1])
+        gare_arrivee_coord_x.append(
+            load[dataset_to_encod.iloc[j][colonnes[1]]][0])
+        gare_arrivee_coord_y.append(
+            load[dataset_to_encod.iloc[j][colonnes[1]]][1])
 
-    dataset_to_encod['gare_depart_coord_x'] = gare_depart_coord_x
-    dataset_to_encod['gare_depart_coord_y'] = gare_depart_coord_y
-    dataset_to_encod['gare_arrivee_coord_x'] = gare_arrivee_coord_x
-    dataset_to_encod['gare_arrivee_coord_y'] = gare_arrivee_coord_y
-    # TODO change place
-    dataset_to_encod['date'] = dataset_to_encod["date"].dt.month
+    dataset_to_encod["gare_depart_coord_x"] = gare_depart_coord_x.copy()
+    dataset_to_encod["gare_depart_coord_y"] = gare_depart_coord_y.copy()
+    dataset_to_encod["gare_arrivee_coord_x"] = gare_arrivee_coord_x.copy()
+    dataset_to_encod["gare_arrivee_coord_y"] = gare_arrivee_coord_y.copy()
 
     del dataset_to_encod[colonnes[1]]
     del dataset_to_encod[colonnes[0]]
@@ -182,9 +186,9 @@ def pipeline_coords(scaling):
         Pipeline of the preprocessing with geographical encoding for stations
     """
     column_trans = ColumnTransformer(
-        [('num', scaling, QUANT_FEATURES), ('cat_oh', OneHotEncoder(), ['service'])])
-    pipe = make_pipeline(dropped(), Transformercolonne(
-        ['gare_depart', 'gare_arrivee']), column_trans)
+        [("num", scaling, QUANT_FEATURES), ("cat_oh", OneHotEncoder(), ["service"]), ("pass", passing(FEATURES_TO_PASS_COORD), FEATURES_TO_PASS_COORD)])
+    pipe = make_pipeline(Transformer_date_prevmonth_outlier(), Transformer_gare(
+        ["gare_depart", "gare_arrivee"]), column_trans)
     return pipe
 
 # Function of the pipeline with binary encoding

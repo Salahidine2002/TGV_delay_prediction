@@ -34,21 +34,64 @@ LIST_CAUSE_FEATURES = [
     "prct_cause_materiel_roulant",
     "prct_cause_prise_en_charge_voyageurs",
 ]
-LIST_FEATURES_TRAINING = [
+
+LIST_FEATURES = [
     "duree_moyenne",
-    "nb_train_prevu",
     "gare_depart",
     "gare_arrivee",
     "service",
-    "date"
-]
+    "nb_train_prevu",
+    "nb_annulation",
+    "commentaire_annulation",
+    "nb_train_depart_retard",
+    "retard_moyen_tous_trains_depart",
+    "commentaire_retards_depart",
+    "commentaires_retard_arrivee",
+    "nb_train_retard_arrivee",
+    "retard_moyen_trains_retard_sup15",
+    "nb_train_retard_sup_15",
+    "nb_train_retard_sup_30",
+    "nb_train_retard_sup_60",
+    "date",
+    "retard_moyen_arrivee",
+    "retard_moyen_depart"]
 
-QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu']
+ADDED_COL = ["gare_depart_coord_x",
+             "gare_depart_coord_y",
+             "retard_mois_prec",
+             "gare_arrivee_coord_x",
+             "gare_arrivee_coord_y"]
 
-DROPPED_COLS = ['commentaire_annulation',
-                'commentaire_retards_depart', 'commentaires_retard_arrivee']
+LIST_ALL_POSSIBLE_FEATURES = LIST_FEATURES + ADDED_COL
+
+QUANT_FEATURES = ["duree_moyenne",
+                  "nb_train_prevu",
+                  "retard_mois_prec",
+                  "retard_moyen_depart"]
+
+CAT_FEATURES = ["service",
+                "gare_depart",
+                "gare_arrivee"]
+
+DROPPED_COLS = ["commentaire_annulation",
+                "commentaire_retards_depart",
+                "commentaires_retard_arrivee",
+                "retard_moyen_arrivee",
+                "nb_train_prevu",
+                "nb_annulation"]
+
+FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if (
+    x in QUANT_FEATURES) == False and (x in DROPPED_COLS) == False
+    and (x in CAT_FEATURES) == False]
+
+
+FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if (
+    x in QUANT_FEATURES) == False and (x in DROPPED_COLS) == False
+    and (x in CAT_FEATURES) == False and (x in ADDED_COL) == False]
+
+
 # TODO
-DROPPED_COLS = []
+#DROPPED_COLS = []
 
 ### Others ###
 
