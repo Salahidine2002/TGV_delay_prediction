@@ -304,7 +304,6 @@ def remove_outliers(dataset, threshold):
     std = np.std(np.array(Col))
 
     Z_score = abs(np.array((Col-mean)/std))
-
     dataset = dataset[Z_score < threshold]
     return dataset
 
