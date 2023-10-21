@@ -9,9 +9,11 @@ compute_mse
 compute_rmse
     Compute Root Mean Square Error.
 
-compute_r2(y_test, y_predicted):
+compute_r2
     Compute R2 score.
-    
+
+scores_per_month
+    Decompose the scores for each month.
 """
 
 ###############
@@ -83,15 +85,33 @@ def compute_r2(y_test, y_predicted):
     """
     return r2_score(y_test, y_predicted)
 
-def scores_per_month(Test_frame, y_predicted, y_test):
+def scores_per_month(test_frame, y_predicted, y_test):
+    """
+    Decompose the scores for each month.
+
+    Parameters
+    ----------
+    test_frame : pandas.core.frame.DataFrame
+        Test dataset.
+
+    y_predicted : numpy.ndarray
+        Feature predicted.
+
+    y_test : numpy.ndarray
+        Feature to predict.
+
+    Returns
+    -------
+    None
+    """
     for month in range(1, 7) :
-        L = Test_frame['date'].dt.month==month
+        L = test_frame['date'].dt.month==month
         R2 = round(compute_r2(y_test[L], y_predicted[L]), 3)
         MSE = round(compute_mse(y_test[L], y_predicted[L]), 3)
         print(f"Month {month} score : R2={R2}  MSE={MSE}")
         
     for month in range(1, 7) :
-        L = Test_frame['date'].dt.month==month
+        L = test_frame['date'].dt.month==month
         plt.figure(figsize=(5, 5))
         plt.scatter(y_test[L], y_predicted[L], s=10)
         plt.title(f"Month : {month}")

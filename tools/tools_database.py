@@ -4,41 +4,41 @@ Python module reading and visualizing the data.
 Functions
 ---------
 
-read_data(path):
-    Reads the data from a csv file's path.
+read_data
+    Read the data from a csv file's path.
 
-load_coords(path='./Data/Coords.pickle'):
-    Loads the dictionary where we stored the spherical coordinates of each station.
+load_coords
+    Load the dictionary where we stored the spherical coordinates of each station.
 
-build_network(station_coordinates, dataset, s):
+build_network
     Construct the adjacency matrix of all stations in our dataset and the existing trajects.   
 
-display_map(zoom=5):
+display_map
     Construct the initial map centred around France. 
 
-add_map_markers(map, markers_coords):
-    Adds a layer of markers (in the specified coordinates) on the given map in the parameters.   
+add_map_markers
+    Add a layer of markers (in the specified coordinates) on the given map in the parameters.   
 
-add_map_routes(map, network, station_coordinates, s):
-    Adds a layer of lines for each traject in the network on the given map in the parameters.    
+add_map_routes
+    Add a layer of lines for each traject in the network on the given map in the parameters.    
 
-display_network(dataset):
-    displays the network of all the trajects specified in the dataset on a map   
+display_network
+    Display the network of all the trajects specified in the dataset on a map   
 
-display_map_delays(dataset, column='delay'):
-    displays the means of one column with respect to each station on a map   
+display_map_delays
+    Display the means of one column with respect to each station on a map   
 
-box_plot_months(dataset, gare_dep, gare_arr, column):
+box_plot_months
     The delay's (or any other numerical feature) box plot on one traject with respect to months 
 
-histograms(dataset, columns):
-    Displays the histograms of one or multiple numerical features
+histograms
+    Display the histograms of one or multiple numerical features
 
-remove_outliers(dataset, threshold):
-    Removes the oultiers rows with respect to the difference between arival and departure delays
+remove_outliers
+    Remove the oultiers rows with respect to the difference between arival and departure delays
 
-last_month_column(dataset_i):
-	Adds a column for the arrival delays of the last month to each row
+last_month_column
+	Add a column for the arrival delays of the last month to each row
 
 """
 
@@ -61,7 +61,7 @@ import matplotlib.pyplot as plt
 
 def read_data(path):
     """
-    Reads the data from a csv file's path.
+    Read the data from a csv file's path.
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def read_data(path):
 
 def load_coords(path='./Data/Coords.pickle'):
     """
-    Loads the dictionary where we stored the spherical coordinates of each station.
+    Load the dictionary where we stored the spherical coordinates of each station.
 
     Parameters
     ----------
@@ -159,7 +159,7 @@ def display_map(zoom=5):
 
 def add_map_markers(map, markers_coords):
     """
-    Adds a layer of markers (in the specified coordinates) on the given map in the parameters.
+    Add a layer of markers (in the specified coordinates) on the given map in the parameters.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def add_map_markers(map, markers_coords):
 
 def add_map_routes(map, network, station_coordinates, list_stations_name):
     """
-    Adds a layer of lines for each traject in the network on the given map in the parameters.
+    Add a layer of lines for each traject in the network on the given map in the parameters.
 
     Parameters
     ----------
@@ -328,7 +328,7 @@ def box_plot_months(dataset, gare_dep, gare_arr, column):
 
 def histograms(dataset, columns):
     """
-    Displays the histograms of one or multiple numerical features
+    Display the histograms of one or multiple numerical features
 
     Parameters
     ----------

@@ -124,6 +124,6 @@ print("R2 ERROR = ", r2_score)
 
 ## Prediction scores per month ###
 
-Test_frame = dataset[dataset['date'].dt.year == 2023]
+test_frame = dataset[dataset['date'].dt.year == 2023]
 y_test = np.array(test_set[DELAY_FEATURE])
-scores_per_month(Test_frame, y_predicted, y_test)
+scores_per_month(test_frame, y_predicted, y_test)
