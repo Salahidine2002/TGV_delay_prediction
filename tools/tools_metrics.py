@@ -8,6 +8,10 @@ compute_mse
 
 compute_rmse
     Compute Root Mean Square Error.
+
+compute_r2(y_test, y_predicted):
+    Compute R2 score.
+    
 """
 
 ###############

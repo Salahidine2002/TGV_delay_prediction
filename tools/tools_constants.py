@@ -6,11 +6,26 @@ Constants
 PATH_DATASET : str
     Path to the dataset of the TGV delays.
 
+PATH_FIGURES : str
+    Path to the saved figures folder
+
 DELAY_FEATURE : str
     Name of the feature representing the mean delay of the TGV at arrival.
 
 LIST_CAUSE_FEATURES : list[str]
     List containing the name of the features representing the different causes of delay.
+
+LIST_FEATURES : list[str]
+    List containing all features
+
+ADDED_COL : list[str]
+    List containing our added columns in the dataset
+
+QUANT_FEATURES : list[str]
+    List of column to normalize
+
+DROPPED_COLS : list[str]
+    List contaning the column dropped for training
 
 RANDOM_STATE : int
     Random seed used to train the models.
@@ -112,7 +127,7 @@ FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in D
 
 ### Others ###
 
-TEST_MODE = True
+TEST_MODE = False
 
 RANDOM_STATE = 42
 
