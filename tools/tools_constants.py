@@ -11,13 +11,14 @@ DELAY_FEATURE : str
 
 LIST_CAUSE_FEATURES : list[str]
     List containing the name of the features representing the different causes of delay.
+
+RANDOM_STATE : int
+    Random seed used to train the models.
 """
 
 #################
 ### Constants ###
 #################
-
-TEST_MODE = False
 
 ### Paths ###
 
@@ -54,39 +55,46 @@ LIST_FEATURES = [
     "nb_train_retard_sup_60",
     "date",
     "retard_moyen_arrivee",
-    "retard_moyen_depart"]
+    "retard_moyen_depart"
+]
 
-ADDED_COL = ["gare_depart_coord_x",
-             "gare_depart_coord_y",
-             
-             "gare_arrivee_coord_x",
-             "gare_arrivee_coord_y"]
+ADDED_COL = [
+    "gare_depart_coord_x",
+    "gare_depart_coord_y",
+    "gare_arrivee_coord_x",
+    "gare_arrivee_coord_y"
+]
 
 LIST_ALL_POSSIBLE_FEATURES = LIST_FEATURES #+ ADDED_COL
 
-QUANT_FEATURES = ["duree_moyenne",
-                  "nb_train_prevu",
-                  
-                  "retard_moyen_depart"]
+QUANT_FEATURES = [
+    "duree_moyenne",
+    "nb_train_prevu",
+    "retard_moyen_depart"
+]
 
-CAT_FEATURES = ["service",
-                "gare_depart",
-                "gare_arrivee"]
+CAT_FEATURES = [
+    "service",
+    "gare_depart",
+    "gare_arrivee"
+]
 
-DROPPED_COLS = ["commentaire_annulation",
-                "commentaire_retards_depart",
-                "commentaires_retard_arrivee",
-                "retard_moyen_arrivee",
-                "nb_train_prevu",
-                "nb_annulation", 
-                "retard_moyen_trains_retard_sup15",
-                "nb_train_retard_sup_15",
-                "nb_train_retard_sup_30",
-                "nb_train_retard_sup_60",
-                "retard_moyen_tous_trains_depart",
-                "nb_train_depart_retard", 
-                "retard_moyen_depart", 
-                "nb_train_retard_arrivee"]
+DROPPED_COLS = [
+    "commentaire_annulation",
+    "commentaire_retards_depart",
+    "commentaires_retard_arrivee",
+    "retard_moyen_arrivee",
+    "nb_train_prevu",
+    "nb_annulation", 
+    "retard_moyen_trains_retard_sup15",
+    "nb_train_retard_sup_15",
+    "nb_train_retard_sup_30",
+    "nb_train_retard_sup_60",
+    "retard_moyen_tous_trains_depart",
+    "nb_train_depart_retard", 
+    "retard_moyen_depart", 
+    "nb_train_retard_arrivee"
+]
 
 # FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if (
 #     x in QUANT_FEATURES) == False and (x in DROPPED_COLS) == False
@@ -103,6 +111,8 @@ FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DR
 FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
 
 ### Others ###
+
+TEST_MODE = True
 
 RANDOM_STATE = 42
 

@@ -1,8 +1,5 @@
 """
 Main Python module launching the pipeline to assess the delay of the TGV.
-
-Functions
----------
 """
 
 ###############
@@ -11,7 +8,6 @@ Functions
 
 ### Python imports ###
 
-import pandas as pd
 from sklearn.pipeline import make_pipeline
 import numpy as np
 import matplotlib.pyplot as plt
@@ -36,6 +32,7 @@ from tools.tools_constants import (
 )
 from tools.tools_database import (
     read_data,
+    display_network,
     remove_outliers,
     last_month_column
 )
@@ -70,7 +67,7 @@ dataset = read_data(PATH_DATASET)
 score_threshold = 3
 dataset = remove_outliers(dataset, score_threshold)
 
-# Adding last month delays 
+# Adding last month delays
 
 dataset = last_month_column(dataset)
 
@@ -89,9 +86,9 @@ if TEST_MODE:
     display_correlation_matrix(dataset)
     display_correlation_graph(dataset)
 
-# ### Training ###
+### Training ###
 
-# # Create the pipeline with the model
+# Create the pipeline with the model
 model1 = Lasso_reg()
 model_sgd_regressor = sgd_regressor()
 model_linear_regression = sgd_regressor()
@@ -108,7 +105,7 @@ complete_pipeline.fit(
     train_set[LIST_FEATURES], train_set[DELAY_FEATURE])
 y_predicted = complete_pipeline.predict(test_set[LIST_FEATURES])
 
-# ### Metrics ###
+### Metrics ###
 
 mse = compute_mse(
     y_predicted=y_predicted,
@@ -125,8 +122,7 @@ r2_score = compute_r2(
 )
 print("R2 ERROR = ", r2_score)
 
-
-## Prediction scores per month 
+## Prediction scores per month ###
 
 Test_frame = dataset[dataset['date'].dt.year == 2023]
 y_test = np.array(test_set[DELAY_FEATURE])

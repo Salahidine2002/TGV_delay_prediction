@@ -2,8 +2,8 @@
 
 ## Data
 
-- [ ] écrire une fonction de séparation de dataset train/test > **Salah**
-- [ ] créer comme nouvelle feature le retard sur le mois précédent
+- [x] écrire une fonction de séparation de dataset train/test > **Salah**
+- [x] créer comme nouvelle feature le retard sur le mois précédent
 
 ## Data visualisation
 

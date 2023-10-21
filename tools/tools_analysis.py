@@ -1,5 +1,5 @@
 """
-Python module analysing the data before the construction of the model.
+Python module analysing the data before the construction of the models.
 
 Functions
 ---------

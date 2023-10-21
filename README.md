@@ -20,3 +20,4 @@ This project is composed of the following files and folders:
   - `tools_preprocessing.py`
 - `.gitignore`
 - `main.py`
+- `visualisation_dataset.ipynb`, a Jupyter notebook which helps us to visualise the dataset.
