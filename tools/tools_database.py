@@ -304,12 +304,15 @@ def remove_outliers(dataset, threshold):
     std = np.std(np.array(Col))
 
     Z_score = abs(np.array((Col-mean)/std))
-
     dataset = dataset[Z_score < threshold]
     return dataset
 
 
-def last_month_column(dataset):
+def last_month_column(dataset_i):
+    print("=========================")
+    print("Adding last month column")
+    print("=========================")
+
     """
     Adds a column for the arrival delays of the last month to each row
 
@@ -320,6 +323,7 @@ def last_month_column(dataset):
     """
 
     last_month_delay = []
+    dataset = pd.DataFrame.copy(dataset_i)
 
     for j in range(len(dataset['date'])):
         row = dataset.iloc[j]
@@ -333,5 +337,7 @@ def last_month_column(dataset):
             last_month_delay.append(0)
 
     dataset['retard_mois_prec'] = last_month_delay
+    dataset  = dataset[dataset['retard_mois_prec']!=0]
+    # dataset  = dataset[dataset['retard_moyen_arrivee']!=0]
 
     return dataset

@@ -34,21 +34,73 @@ LIST_CAUSE_FEATURES = [
     "prct_cause_materiel_roulant",
     "prct_cause_prise_en_charge_voyageurs",
 ]
-LIST_FEATURES_TRAINING = [
+
+LIST_FEATURES = [
     "duree_moyenne",
-    "nb_train_prevu",
     "gare_depart",
     "gare_arrivee",
     "service",
+    "nb_train_prevu",
+    "nb_annulation",
+    "commentaire_annulation",
+    "nb_train_depart_retard",
+    "retard_moyen_tous_trains_depart",
+    "commentaire_retards_depart",
+    "commentaires_retard_arrivee",
+    "nb_train_retard_arrivee",
+    "retard_moyen_trains_retard_sup15",
+    "nb_train_retard_sup_15",
+    "nb_train_retard_sup_30",
+    "nb_train_retard_sup_60",
     "date",
-    "retard_moyen_arrivee"
-]
+    "retard_moyen_arrivee",
+    "retard_moyen_depart"]
 
-QUANT_FEATURES = ['duree_moyenne', 'nb_train_prevu']
+ADDED_COL = ["gare_depart_coord_x",
+             "gare_depart_coord_y",
+             
+             "gare_arrivee_coord_x",
+             "gare_arrivee_coord_y"]
 
-DROPPED_COLS = [
-    "retard_moyen_arrivee"
-]
+LIST_ALL_POSSIBLE_FEATURES = LIST_FEATURES #+ ADDED_COL
+
+QUANT_FEATURES = ["duree_moyenne",
+                  "nb_train_prevu",
+                  
+                  "retard_moyen_depart"]
+
+CAT_FEATURES = ["service",
+                "gare_depart",
+                "gare_arrivee"]
+
+DROPPED_COLS = ["commentaire_annulation",
+                "commentaire_retards_depart",
+                "commentaires_retard_arrivee",
+                "retard_moyen_arrivee",
+                "nb_train_prevu",
+                "nb_annulation", 
+                "retard_moyen_trains_retard_sup15",
+                "nb_train_retard_sup_15",
+                "nb_train_retard_sup_30",
+                "nb_train_retard_sup_60",
+                "retard_moyen_tous_trains_depart",
+                "nb_train_depart_retard", 
+                "retard_moyen_depart", 
+                "nb_train_retard_arrivee"]
+
+# FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if (
+#     x in QUANT_FEATURES) == False and (x in DROPPED_COLS) == False
+#     and (x in CAT_FEATURES) == False]
+
+
+# FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if (
+#     x in QUANT_FEATURES) == False and (x in DROPPED_COLS) == False
+#     and (x in CAT_FEATURES) == False and (x in ADDED_COL) == False]
+
+FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
+
+
+FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
 
 ### Others ###
 
