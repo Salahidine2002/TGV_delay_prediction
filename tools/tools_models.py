@@ -24,6 +24,9 @@ random_forest
 extremely_random_trees
     Extremely Random Trees 
 
+decision_tree_reg(max_depth, min_samples_leaf):
+    Random Forest Regressor
+
 Lasso_reg
     Lasso Regression 
 

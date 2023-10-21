@@ -1,14 +1,48 @@
 """
 Python module cleaning the data when necessary, after their validation.
 
+Class
+---------
+
+Transformer_date_prevmonth_outlier(TransformerMixin, BaseEstimator)
+    Convert date to month and add a new column which give the delay of 
+    the train of the past month
+
+Transformer_gare(TransformerMixin, BaseEstimator):
+    Encode station as their geographical coordinates (x and y)
+    In place of having 2 columns after transformation we have 4 columns  
+
+passing(TransformerMixin, BaseEstimator):
+    This class doesn't apply any transformation. It only conserve the
+    features that are not rescaled or ecoded but still wished on the pipeline
+    as training data for fitting the model  
+
+
+
 Functions
 ---------
+
+pipeline_binary(scaling):
+    creation of the pre processing pipeline with, among others binary encoding for the stations 
+    (including also dropping the useless columns, encoding the service and normalizing the features)
+
+coords_encoding(Dataset, colonnes):
+    function which transform the name of columns (in this case it is used for stations)
+    into their geographical coordinates
+
+pipeline_coords(scaling):
+    creation of the pre processing pipeline with, among others coordinate encoding for the stations 
+    (including also dropping the useless columns, encoding the service and normalizing the features)
+
+
 
 check_for_same_departure_arrival_station(Dataset)
     Function to check if a trip as the same departure and arrival station 
 
 check_for_same_trip_in_same_month(Dataset)
     Function to check if a trip exists twice for the same month (it should not)
+
+
 """
 
 ###############
@@ -52,6 +86,12 @@ class Transformer_date_prevmonth_outlier(TransformerMixin, BaseEstimator):
     def transform(self, X, y=None):
         # X = last_month_column(X)
         X["date"] = X["date"].dt.month
+        # Supprimer les colonnes
+        X = last_month_column(X)
+        print(X)
+        print(self.to_drop)
+        X = X.drop(self.to_drop, axis=1)
+        print(X)
         return X
 
 

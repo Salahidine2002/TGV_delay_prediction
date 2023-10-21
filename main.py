@@ -74,7 +74,7 @@ dataset = remove_outliers(dataset, score_threshold)
 
 dataset = last_month_column(dataset)
 
-# # Spliting data
+# Spliting data
 train_set = dataset[dataset['date'].dt.year != 2023]
 test_set = dataset[dataset['date'].dt.year == 2023]
 print(list(FEATURES_TO_PASS_BINARY), list(FEATURES_TO_PASS_COORD))

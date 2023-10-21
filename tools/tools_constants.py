@@ -6,11 +6,27 @@ Constants
 PATH_DATASET : str
     Path to the dataset of the TGV delays.
 
+PATH_FIGURES : str
+    Path to the saved figures folder
+
 DELAY_FEATURE : str
     Name of the feature representing the mean delay of the TGV at arrival.
 
 LIST_CAUSE_FEATURES : list[str]
     List containing the name of the features representing the different causes of delay.
+
+LIST_FEATURES : list[str]
+    List containing all features
+
+ADDED_COL : list[str]
+    List containing our added columns in the dataset
+
+QUANT_FEATURES : list[str]
+    List of column to normalize
+
+DROPPED_COLS : list[str]
+    List contaning the column dropped for training
+    
 """
 
 #################
@@ -54,19 +70,19 @@ LIST_FEATURES = [
     "nb_train_retard_sup_60",
     "date",
     "retard_moyen_arrivee",
-    "retard_moyen_depart"]
+    "retard_moyen_depart"
+]
 
 ADDED_COL = ["gare_depart_coord_x",
              "gare_depart_coord_y",
-             
              "gare_arrivee_coord_x",
-             "gare_arrivee_coord_y"]
+             "gare_arrivee_coord_y"
+]
 
 LIST_ALL_POSSIBLE_FEATURES = LIST_FEATURES #+ ADDED_COL
 
 QUANT_FEATURES = ["duree_moyenne",
                   "nb_train_prevu",
-                  
                   "retard_moyen_depart"]
 
 CAT_FEATURES = ["service",
@@ -103,8 +119,9 @@ FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DR
 FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
 
 
-# TODO
-#DROPPED_COLS = []
+DROPPED_COLS = [
+    "retard_moyen_arrivee"
+]
 
 ### Others ###
 
