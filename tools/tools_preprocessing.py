@@ -50,7 +50,7 @@ class Transformer_date_prevmonth_outlier(TransformerMixin, BaseEstimator):
         return self
 
     def transform(self, X, y=None):
-        X = last_month_column(X)
+        # X = last_month_column(X)
         X["date"] = X["date"].dt.month
         return X
 
@@ -164,7 +164,6 @@ def coords_encoding(Dataset, colonnes):
 
     del dataset_to_encod[colonnes[1]]
     del dataset_to_encod[colonnes[0]]
-
     return dataset_to_encod
 
 # création de la pipeline qui encode en coordonné en fonction de la methode de normalisaton
