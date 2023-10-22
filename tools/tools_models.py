@@ -244,7 +244,7 @@ def decision_tree_reg(max_depth, min_samples_leaf):
     )
 
 
-def Lasso_reg():
+def Lasso_reg(alpha=1.0):
     """
     Lasso Regression
 
@@ -257,7 +257,7 @@ def Lasso_reg():
     sklearn.linear_model.Lasso
     """
     return Lasso(
-        alpha=1.0)
+        alpha=alpha)
 
 
 def Ridge_reg(alpha, max_iter, tol):
@@ -280,7 +280,7 @@ def Ridge_reg(alpha, max_iter, tol):
     sklearn.linear_model.Ridge
     """
     return Ridge(
-        alpha, max_iter, tol)
+        alpha=alpha)
 
 
 def elastic_net(alpha, l1_ratio, max_iter, tol):
