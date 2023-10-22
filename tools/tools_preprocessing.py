@@ -34,7 +34,23 @@ pipeline_coords(scaling):
     creation of the pre processing pipeline with, among others coordinate encoding for the stations 
     (including also dropping the useless columns, encoding the service and normalizing the features)
 
+pipeline_minmax()
+    Creation of the pipeline with binary encoding for stations and MinMaxscaler scaling
 
+pipeline_stand()
+    Creation of the pipeline with binary encoding for stations and Standardscaler scaling
+   
+pipeline_robust()
+    Creation of the pipeline with binary encoding for stations and Robustscaler scaling
+  
+pipeline_coords_robust()
+    Creation of the pipeline with coordinate encoding for stations and Robustscaler scaling
+
+pipeline_coords_minmax()
+    Creation of the pipeline with coordinate encoding for stations and MinMaxscaler scaling
+
+pipeline_coords_stand()
+    Creation of the pipeline with coordinate encoding for stations and Standardscaler scaling
 
 check_for_same_departure_arrival_station(Dataset)
     Function to check if a trip as the same departure and arrival station 
