@@ -132,13 +132,16 @@ def scores_per_month(test_frame, y_predicted, y_test):
         MSE = round(compute_mse(y_test[L], y_predicted[L]), 3)
         print(f"Month {month} score : R2={R2}  MSE={MSE}")
         
+    maximum = max(np.max(y_predicted), np.max(y_test))
     for month in range(1, 7) :
         L = test_frame['date'].dt.month==month
         plt.figure(figsize=(5, 5))
         plt.scatter(y_test[L], y_predicted[L], s=10)
         plt.title(f"Month : {month}")
-        X = np.linspace(min(y_test[L]), max(y_test[L]), 100)
+        X = np.linspace(0, maximum, 100)
         plt.plot(X, X, c='black', linestyle="--")
         plt.xlabel("Ground truth")
         plt.ylabel("Predictions")
+        plt.xlim(0, maximum)
+        plt.ylim(0, maximum)
         plt.savefig(f"./figures/Predictions_month_{month}.png")
