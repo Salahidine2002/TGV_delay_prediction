@@ -43,13 +43,9 @@ PATH_FIGURES = "figures/"
 ### Features ###
 
 DELAY_FEATURE = "retard_moyen_arrivee"
-LIST_CAUSE_FEATURES = [
-    "prct_cause_externe",
-    "prct_cause_infra",
-    "prct_cause_gestion_trafic",
-    "prct_cause_materiel_roulant",
-    "prct_cause_prise_en_charge_voyageurs",
-]
+LIST_CAUSE_FEATURES = ['prct_cause_externe', 'prct_cause_infra', 'prct_cause_gestion_trafic',
+       'prct_cause_materiel_roulant', 'prct_cause_gestion_gare',
+       'prct_cause_prise_en_charge_voyageurs']
 
 LIST_FEATURES = [
     "duree_moyenne",

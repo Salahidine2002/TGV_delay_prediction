@@ -6,3 +6,4 @@ pandas==1.5.2
 pandas_stubs==1.2.0.35
 scikit_learn==1.0.2
 xgboost==2.0.0
+tqdm==4.6.1

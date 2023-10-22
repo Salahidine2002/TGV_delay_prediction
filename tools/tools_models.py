@@ -103,6 +103,71 @@ def linear_regression():
     """
     return LinearRegression()
 
+def Lasso_reg(alpha=1.0):
+    """
+    Lasso Regression
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    sklearn.linear_model.Lasso
+    """
+    return Lasso(
+        alpha=alpha)
+
+def Ridge_reg(alpha, max_iter, tol):
+    """
+    Ridge Regression
+
+    Parameters
+    ----------
+    alpha : float
+        Constant that multiplies the L1 term
+
+    max_iter : int 
+        The maximum number of iterations
+
+    tol : Float
+        The precision of the solution
+
+    Returns
+    -------
+    sklearn.linear_model.Ridge
+    """
+    return Ridge(
+        alpha=alpha,
+        max_iter=max_iter,
+        tol=tol,
+        random_state=RANDOM_STATE)
+
+def elastic_net(alpha, l1_ratio, max_iter, tol):
+    """
+    ElasticNet Regression
+
+    Parameters
+    ----------
+    alpha : float
+        Constant that multiplies the L1 term
+
+    l1_ratio : float
+        The ElasticNet mixing parameter
+
+    max_iter : int 
+        The maximum number of iterations
+
+    tol : float
+        The maximum number of iterations
+
+    Returns
+    -------
+    sklearn.linear_model.ElasticNet
+    """
+    return ElasticNet(
+        alpha, l1_ratio, max_iter, tol)
+
 ######################
 ### Random forests ###
 ######################
@@ -268,71 +333,3 @@ def decision_tree_reg(max_depth, min_samples_leaf):
         min_samples_leaf= min_samples_leaf,
         random_state = RANDOM_STATE
     )
-
-
-def Lasso_reg():
-    """
-    Lasso Regression
-
-    Parameters
-    ----------
-    None
-
-    Returns
-    -------
-    sklearn.linear_model.Lasso
-    """
-    return Lasso(
-        alpha=1.0)
-
-
-def Ridge_reg(alpha, max_iter, tol):
-    """
-    Ridge Regression
-
-    Parameters
-    ----------
-    alpha : float
-        Constant that multiplies the L1 term
-
-    max_iter : int 
-        The maximum number of iterations
-
-    tol : Float
-        The precision of the solution
-
-    Returns
-    -------
-    sklearn.linear_model.Ridge
-    """
-    return Ridge(
-        alpha=alpha,
-        max_iter=max_iter,
-        tol=tol,
-        random_state=RANDOM_STATE)
-
-
-def elastic_net(alpha, l1_ratio, max_iter, tol):
-    """
-    ElasticNet Regression
-
-    Parameters
-    ----------
-    alpha : float
-        Constant that multiplies the L1 term
-
-    l1_ratio : float
-        The ElasticNet mixing parameter
-
-    max_iter : int 
-        The maximum number of iterations
-
-    tol : float
-        The maximum number of iterations
-
-    Returns
-    -------
-    sklearn.linear_model.ElasticNet
-    """
-    return ElasticNet(
-        alpha, l1_ratio, max_iter, tol)
