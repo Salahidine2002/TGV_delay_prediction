@@ -69,7 +69,7 @@ dataset = remove_outliers(dataset, score_threshold)
 
 # Adding last month delays
 
-#dataset = last_month_column(dataset)
+dataset = last_month_column(dataset)
 
 # Spliting data
 train_set = dataset[dataset['date'].dt.year != 2023]
@@ -95,7 +95,11 @@ model_linear_regression = sgd_regressor()
 model_dt = decision_tree_reg(max_depth=7, min_samples_leaf=4)
 model_rf = random_forest(n_estim=100, max_depth=7, min_samples_leaf=8)
 model_GBR = GBR(n_estim=1000, max_depth=5, learning_rate=0.01)
-complete_pipeline = make_pipeline(pipeline1, model_GBR)
+model_HGBR = HGBR(max_iter = 100, max_depth = None, min_samples_leaf = 20, learning_rate = 0.2)
+model_ERT = extremely_random_trees(n_estim = 100, max_depth = None, min_samples_leaf = 1)
+model_XGBReg = XGBRegressor(n_estimators = 200, learning_rate = 0.3, max_depth = 3, random_state = 42) # extreme Gradient Boosting
+
+complete_pipeline = make_pipeline(pipeline1, model_HGBR)
 
 print("=========================")
 print("Starting the pipeline")

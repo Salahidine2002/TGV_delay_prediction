@@ -110,7 +110,7 @@ def linear_regression():
 ### Random forests ###
 ######################
 
-def GBR(n_estim = 100, min_sample_leaf = 1, max_depth = 3, learning_rate = 0.1):
+def GBR(n_estim = 100, min_sample_leaf = 1, max_depth = 3, learning_rate = 0.1, min_samples_split = 2, subsample = 1.0):
     """
     Gradient Boosting Regression
 
@@ -134,6 +134,8 @@ def GBR(n_estim = 100, min_sample_leaf = 1, max_depth = 3, learning_rate = 0.1):
     """
     return GradientBoostingRegressor(
         n_estimators = n_estim, 
+        subsample = subsample,
+        min_samples_split = min_samples_split,
         min_samples_leaf = min_sample_leaf, 
         learning_rate = learning_rate,
         max_depth = max_depth, 
@@ -195,7 +197,7 @@ def random_forest(n_estim = 100, max_depth = None, min_samples_leaf = 1):
         random_state = RANDOM_STATE
     )
 
-def extremely_random_trees(n_estim = 100, max_depth = None, min_samples_leaf = 1):
+def extremely_random_trees(n_estim = 100, max_depth = None, min_samples_leaf = 1, min_samples_split = 2):
     """
     Extremely Random Trees
 
@@ -217,6 +219,7 @@ def extremely_random_trees(n_estim = 100, max_depth = None, min_samples_leaf = 1
     return ExtraTreesRegressor(
         n_estimators= n_estim,
         max_depth= max_depth,
+        min_samples_split = min_samples_split,
         min_samples_leaf= min_samples_leaf,
         random_state = RANDOM_STATE
     )
