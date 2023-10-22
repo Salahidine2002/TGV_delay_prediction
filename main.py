@@ -28,7 +28,8 @@ from tools.tools_constants import (
     L1_RATIO,
     LIST_FEATURES, 
     FEATURES_TO_PASS_BINARY, 
-    FEATURES_TO_PASS_COORD
+    FEATURES_TO_PASS_COORD,
+    RANDOM_STATE
 )
 from tools.tools_database import (
     read_data,
@@ -92,14 +93,14 @@ if TEST_MODE:
 model1 = Lasso_reg()
 model_sgd_regressor = sgd_regressor()
 model_linear_regression = sgd_regressor()
-model_dt = decision_tree_reg(max_depth=7, min_samples_leaf=4)
-model_rf = random_forest(n_estim=100, max_depth=7, min_samples_leaf=8)
-model_GBR = GBR(n_estim=1000, max_depth=5, learning_rate=0.01)
-model_HGBR = HGBR(max_iter = 100, max_depth = None, min_samples_leaf = 20, learning_rate = 0.2)
-model_ERT = extremely_random_trees(n_estim = 100, max_depth = None, min_samples_leaf = 1)
-model_XGBReg = XGBRegressor(n_estimators = 200, learning_rate = 0.3, max_depth = 3, random_state = 42) # extreme Gradient Boosting
+model_dt = decision_tree_reg(max_depth = 7, min_samples_leaf = 5)
+model_rf = random_forest(n_estim = 700, max_depth = 20, min_samples_leaf = 15, min_samples_split = 2)
+model_GBR = GBR(n_estim = 1000, max_depth = 5, learning_rate = 0.01, min_samples_split = 140, min_sample_leaf = 5)
+model_HGBR = HGBR(max_iter = 50, max_depth = 7, min_samples_leaf = 20, learning_rate = 0.1)
+model_ERT = extremely_random_trees(n_estim = 300, max_depth = 25, min_samples_split = 27, min_samples_leaf = 1)
+model_XGBReg = XGBRegressor(n_estimators = 100, learning_rate = 0.3, max_depth = 3, random_state = RANDOM_STATE) # extreme Gradient Boosting
 
-complete_pipeline = make_pipeline(pipeline1, model_HGBR)
+complete_pipeline = make_pipeline(pipeline1, model_rf)
 
 print("=========================")
 print("Starting the pipeline")

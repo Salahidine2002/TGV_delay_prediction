@@ -171,7 +171,7 @@ def HGBR(max_iter = 100, max_depth = None, min_samples_leaf = 20, learning_rate 
         random_state = RANDOM_STATE
     )
 
-def random_forest(n_estim = 100, max_depth = None, min_samples_leaf = 1):
+def random_forest(n_estim = 100, max_depth = None, min_samples_leaf = 1, min_samples_split = 2):
     """
     Random Forest Regressor
 
@@ -193,6 +193,7 @@ def random_forest(n_estim = 100, max_depth = None, min_samples_leaf = 1):
     return RandomForestRegressor(
         n_estimators = n_estim,
         max_depth = max_depth,
+        min_samples_split = min_samples_split,
         min_samples_leaf = min_samples_leaf,
         random_state = RANDOM_STATE
     )
