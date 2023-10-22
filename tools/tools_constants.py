@@ -111,19 +111,14 @@ DROPPED_COLS = [
     "nb_train_retard_arrivee"
 ]
 
-# FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if (
-#     x in QUANT_FEATURES) == False and (x in DROPPED_COLS) == False
-#     and (x in CAT_FEATURES) == False]
+FEATURES_TO_PASS_COORD = [
+    x for x in LIST_ALL_POSSIBLE_FEATURES if 
+    (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
 
 
-# FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if (
-#     x in QUANT_FEATURES) == False and (x in DROPPED_COLS) == False
-#     and (x in CAT_FEATURES) == False and (x in ADDED_COL) == False]
-
-FEATURES_TO_PASS_COORD = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
-
-
-FEATURES_TO_PASS_BINARY = [x for x in LIST_ALL_POSSIBLE_FEATURES if  (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
+FEATURES_TO_PASS_BINARY = [
+    x for x in LIST_ALL_POSSIBLE_FEATURES if 
+    (not(x in DROPPED_COLS) and not(x in ADDED_COL) and not(x in CAT_FEATURES))]
 
 ### Others ###
 

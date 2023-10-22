@@ -87,6 +87,26 @@ def compute_r2(y_test, y_predicted):
     """
     return r2_score(y_test, y_predicted)
 
+def compute_bias(y_test, y_predicted):
+    """
+    Compute the bias of the solution.
+
+    Parameters
+    ----------
+    y_test : numpy.ndarray
+        Feature to predict.
+
+    y_predicted : numpy.ndarray
+        Feature predicted.
+
+    Returns
+    -------
+    bias : float
+    """
+    mean_test = np.mean(y_test)
+    mean_predicted = np.mean(y_predicted)
+    return abs(mean_predicted - mean_test)
+
 def scores_per_month(test_frame, y_predicted, y_test):
     """
     Decompose the scores for each month.

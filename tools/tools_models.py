@@ -1,11 +1,3 @@
-from sklearn.linear_model import Ridge, ElasticNet, Lasso, LinearRegression
-
-from xgboost import XGBRegressor
-
-from sklearn.ensemble import AdaBoostRegressor
-
-from sklearn.model_selection import cross_val_score, GridSearchCV
-
 """
 Python module to train differents architectures on the train data.
 
@@ -23,13 +15,16 @@ GBR
 HGBR
     Histogram-based Gradient Boosting Regression Tree
 
+XGBR
+    Extreme Gradient Boosting
+
 random_forest
     Random Forest Regressor   
 
 extremely_random_trees
     Extremely Random Trees 
 
-decision_tree_reg(max_depth, min_samples_leaf):
+decision_tree_reg
     Random Forest Regressor
 
 Lasso_reg
@@ -50,21 +45,25 @@ elastic_net
 
 from sklearn.linear_model import (
     SGDRegressor,
-    LinearRegression
+    LinearRegression,
+    Ridge,
+    ElasticNet,
+    Lasso
 )
-
 from sklearn.ensemble import (
     GradientBoostingRegressor,
     HistGradientBoostingRegressor,
     RandomForestRegressor,
     ExtraTreesRegressor
 )
-
 from sklearn.tree import (
     DecisionTreeRegressor
 )
+from xgboost import (
+    XGBRegressor
+)
 
-### Module imports ###
+### Modules imports ###
 
 from tools.tools_constants import (
     RANDOM_STATE
@@ -102,9 +101,7 @@ def linear_regression():
     -------
     sklearn.linear_model.LinearRegression
     """
-    return LinearRegression(
-        random_state=RANDOM_STATE
-    )
+    return LinearRegression()
 
 ######################
 ### Random forests ###
@@ -170,6 +167,31 @@ def HGBR(max_iter = 100, max_depth = None, min_samples_leaf = 20, learning_rate 
         min_samples_leaf = min_samples_leaf,
         random_state = RANDOM_STATE
     )
+
+def XGBR(n_estimators = 100, learning_rate = 0.3, max_depth = 3):
+    """
+    Extreme Gradient Boosting
+
+    Parameters
+    ----------
+    n_estimators : int, optional (default is 100)
+        Number of estimators
+
+    learning_rate : float, optional (default is 0.3)
+        Learning rate
+
+    max_depth : int, optional (default is 3)
+        Maximal depth
+
+    Return
+    ------
+    XGBRegressor from xgboost
+    """
+    return XGBRegressor(
+        n_estimators = n_estimators,
+        learning_rate = learning_rate,
+        max_depth = max_depth,
+        random_state = RANDOM_STATE)
 
 def random_forest(n_estim = 100, max_depth = None, min_samples_leaf = 1, min_samples_split = 2):
     """
@@ -284,7 +306,10 @@ def Ridge_reg(alpha, max_iter, tol):
     sklearn.linear_model.Ridge
     """
     return Ridge(
-        alpha, max_iter, tol)
+        alpha=alpha,
+        max_iter=max_iter,
+        tol=tol,
+        random_state=RANDOM_STATE)
 
 
 def elastic_net(alpha, l1_ratio, max_iter, tol):
