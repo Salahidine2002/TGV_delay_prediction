@@ -83,15 +83,11 @@ To launch our code, you have to run the `main.py` file with the following comman
 python main.py
 ```
 
-This will run the whole pipeline with the best model we obtain. Nevertheless, if you want to change the model, go into the `main.py` file and change this line by passing as second parameter the model of your choice:
-
-```python
-complete_pipeline = make_pipeline(pipeline1, <model_of_your_choice>)
-```
+This will run the whole pipeline with the best model we obtain. Nevertheless, if you want to change the model, go into the `main.py` file and change the lines 112 to 120 by uncommenting the model of your choice. The model of your choice must also be uncommented at the lines 144 to 151.
 
 Most of the models we used are defined above this line and if you want, you may change the parameters. The complete descriptions of those models are written in the module `tools_models.py` where they are all defined.
 
-At the end of the execution, six graphs will be saved in the folder `figures`, under the names `Predictions_month_i.png` where `i` is comprised between 1 and 6. This graphs represent the distribution of the predictions of the mean arrival delay according to the ground truth for each month of the year. These graphs may be compared to the graphs we obtained with the best models, saved under the names `Best_predictions_month_i.png`.
+At the end of the execution, six graphs will be saved in the folder `figures`, under the names `Predictions_month_i.png` where `i` is comprised between 1 and 6. These graphs represent the distribution of the predictions of the mean arrival delay according to the ground truth for each month of the year. These graphs may be compared to the graphs we obtained with the best models, saved under the names `Best_predictions_month_i.png`.
 
 ### Display the correlation graphs
 

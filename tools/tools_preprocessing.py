@@ -1,8 +1,8 @@
 """
 Python module cleaning the data when necessary, after their validation.
 
-Class
----------
+Classes
+-------
 
 Transformer_date_prevmonth_outlier(TransformerMixin, BaseEstimator)
     Convert date to month and add a new column which give the delay of 
@@ -17,39 +17,37 @@ passing(TransformerMixin, BaseEstimator):
     features that are not rescaled or ecoded but still wished on the pipeline
     as training data for fitting the model  
 
-
-
 Functions
 ---------
 
-pipeline_binary(scaling):
+pipeline_binary
     creation of the pre processing pipeline with, among others binary encoding for the stations 
     (including also dropping the useless columns, encoding the service and normalizing the features)
 
-coords_encoding(Dataset, colonnes):
+coords_encoding
     function which transform the name of columns (in this case it is used for stations)
     into their geographical coordinates
 
-pipeline_coords(scaling):
+pipeline_coords
     creation of the pre processing pipeline with, among others coordinate encoding for the stations 
     (including also dropping the useless columns, encoding the service and normalizing the features)
 
-pipeline_minmax()
+pipeline_minmax
     Creation of the pipeline with binary encoding for stations and MinMaxscaler scaling
 
-pipeline_stand()
+pipeline_stand
     Creation of the pipeline with binary encoding for stations and Standardscaler scaling
    
-pipeline_robust()
+pipeline_robust
     Creation of the pipeline with binary encoding for stations and Robustscaler scaling
   
-pipeline_coords_robust()
+pipeline_coords_robust
     Creation of the pipeline with coordinate encoding for stations and Robustscaler scaling
 
-pipeline_coords_minmax()
+pipeline_coords_minmax
     Creation of the pipeline with coordinate encoding for stations and MinMaxscaler scaling
 
-pipeline_coords_stand()
+pipeline_coords_stand
     Creation of the pipeline with coordinate encoding for stations and Standardscaler scaling
 
 check_for_same_departure_arrival_station(Dataset)
@@ -57,8 +55,6 @@ check_for_same_departure_arrival_station(Dataset)
 
 check_for_same_trip_in_same_month(Dataset)
     Function to check if a trip exists twice for the same month (it should not)
-
-
 """
 
 ###############
@@ -67,10 +63,22 @@ check_for_same_trip_in_same_month(Dataset)
 
 ### Python imports ###
 
-from sklearn.preprocessing import OneHotEncoder, RobustScaler, MinMaxScaler, StandardScaler
-from sklearn.pipeline import make_pipeline
-from sklearn.base import TransformerMixin, BaseEstimator
-from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import (
+    OneHotEncoder,
+    RobustScaler,
+    MinMaxScaler,
+    StandardScaler
+)
+from sklearn.pipeline import (
+    make_pipeline
+)
+from sklearn.base import (
+    TransformerMixin,
+    BaseEstimator
+)
+from sklearn.compose import (
+    ColumnTransformer
+)
 import category_encoders as ce
 
 ### Module imports ###
@@ -78,7 +86,6 @@ import category_encoders as ce
 from tools.tools_database import *
 from tools.tools_constants import (
     QUANT_FEATURES,
-    DROPPED_COLS,
     FEATURES_TO_PASS_COORD,
     FEATURES_TO_PASS_BINARY
 )
@@ -86,7 +93,6 @@ from tools.tools_constants import (
 ###############
 ### Classes ###
 ###############
-
 
 class Transformer_date_prevmonth_outlier(TransformerMixin, BaseEstimator):
     """ Convert date to month and add a new column which give the delay of 
@@ -122,7 +128,6 @@ class Transformer_gare(TransformerMixin, BaseEstimator):
         X = coords_encoding(X, self.to_transform)
         return X
 
-
 class passing(TransformerMixin, BaseEstimator):
     """This class doesn't apply any transformation. It only conserve the
     features that are not rescaled or ecoded but still wished on the pipeline
@@ -149,7 +154,6 @@ class passing(TransformerMixin, BaseEstimator):
 
 ### Functions for encoding and normalisation ###
 
-
 def pipeline_binary(scaling):
     """
     creation of the pre processing pipeline with, among others binary encoding for the stations 
@@ -169,8 +173,6 @@ def pipeline_binary(scaling):
     pipe = make_pipeline(Transformer_date_prevmonth_outlier(), column_trans)
     return pipe
 
-
-# fonction qui réalise la transformation du dataset et des colonnes des gare en coordonnées (x et y)
 def coords_encoding(Dataset, colonnes):
     """
     function which transform the name of columns (in this case it is used for stations)
@@ -214,9 +216,6 @@ def coords_encoding(Dataset, colonnes):
     del dataset_to_encod[colonnes[0]]
     return dataset_to_encod
 
-# création de la pipeline qui encode en coordonné en fonction de la methode de normalisaton
-
-
 def pipeline_coords(scaling):
     """
     creation of the pre processing pipeline with, among others coordinate encoding for the stations 
@@ -240,7 +239,6 @@ def pipeline_coords(scaling):
 
 # Function of the pipeline with binary encoding
 
-
 def pipeline_minmax():
     """ 
     Creation of the pipeline with binary encoding for stations and MinMaxscaler scaling
@@ -262,7 +260,6 @@ def pipeline_robust():
     return pipeline_binary(RobustScaler())
 
 # Function of the pipeline with coordinate encoding
-
 
 def pipeline_coords_robust():
     """ 
@@ -286,7 +283,6 @@ def pipeline_coords_stand():
 
 ### Functions for data checking ###
 
-
 def check_for_same_departure_arrival_station(Dataset):
     """
     Function to check if a trip as the same departure and arrival station 
@@ -307,7 +303,6 @@ def check_for_same_departure_arrival_station(Dataset):
         if (Dataset["gare_depart"][ligne] == Dataset["gare_arrivee"][ligne]):
             same_station.append(ligne)
     return (same_station)
-
 
 def check_for_same_trip_in_same_month(Dataset):
     """

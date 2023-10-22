@@ -76,7 +76,7 @@ We obtain the following results:
 - rmse = 10.5
 - r2 = 0.39
 
-### random forest
+### Random forest
 
 With parameters n_estim = 300, max_depth = 20, min_samples_leaf = 15, min_samples_split = 2, we obtain the following results:
 - mse = 96.27
