@@ -100,9 +100,6 @@ model6 = ExtraTreesRegressor(
     n_estimators = 160, 
     min_samples_leaf = 1, 
     max_depth = 10, 
-    # bootstrap = False,
-    warm_start = True,
-    # max_samples = None, # If bootstrap is True, the number of samples to draw from X to train each base estimator.
     random_state = RANDOM_STATE)
 
 model5 = XGBRegressor(

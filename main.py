@@ -69,7 +69,7 @@ dataset = remove_outliers(dataset, score_threshold)
 
 # Adding last month delays
 
-dataset = last_month_column(dataset)
+#dataset = last_month_column(dataset)
 
 # Spliting data
 train_set = dataset[dataset['date'].dt.year != 2023]
