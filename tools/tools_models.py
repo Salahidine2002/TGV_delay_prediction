@@ -11,6 +11,11 @@ Python module to train differents architectures on the train data.
 
 Functions
 ---------
+sgd_regressor
+    Stochastic Gradient Descent Regressor
+
+linear_regression
+    Linear Regressor
 
 GBR
     Gradient Boosting Regression 
@@ -70,11 +75,33 @@ from tools.tools_constants import (
 #########################
 
 def sgd_regressor():
+    """
+    Stochastic Gradient Descent Regressor.
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    sklearn.linear_model.SGDRegressor
+    """
     return SGDRegressor(
         random_state=RANDOM_STATE
     )
 
 def linear_regression():
+    """
+    Linear Regressor.
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    sklearn.linear_model.LinearRegression
+    """
     return LinearRegression(
         random_state=RANDOM_STATE
     )
@@ -89,14 +116,17 @@ def GBR(n_estim = 100, min_sample_leaf = 1, max_depth = 3, learning_rate = 0.1):
 
     Parameters
     ----------
-    n_estim : int
+    n_estim : int, optional (default is 100)
         Number of boosting stages to perform
 
-    min_samples_leaf : int or float
+    min_samples_leaf : int or float, optional (default is 1)
         The minimum number of samples required to be a leaf node
 
-    max_depth : int or None
+    max_depth : int or None, optional (default is 3)
         Maximum depth of the individual regression estimators
+
+    learning_rate : float, optional (default is 0.1)
+        The learning rate
 
     Returns
     -------
@@ -115,14 +145,17 @@ def HGBR(max_iter = 100, max_depth = None, min_samples_leaf = 20, learning_rate 
 
     Parameters
     ----------
-    max_iter : int
+    max_iter : int, optional (default is 100)
         maximum nuber of iterations of the boosting process
     
-    max_depth : int or None
+    max_depth : int or None, optional (default is None)
         Maximum depth of each tree
 
-    min_samples_leaf : int
+    min_samples_leaf : int, optional (default is 1)
         The minimum number of samples per leaf
+
+    learning_rate : float, optional (default is 0.1)
+        The learning rate
 
     Returns
     -------
@@ -142,13 +175,13 @@ def random_forest(n_estim = 100, max_depth = None, min_samples_leaf = 1):
 
     Parameters
     ----------
-    n_estim : int
-        number of trees in the forest
+    n_estim : int, optional (default is 100)
+        Number of trees in the forest
     
-    max_depth : int or None
+    max_depth : int or None, optional (default is None)
         Maximum depth of the tree
 
-    min_samples_leaf : int
+    min_samples_leaf : int, optional (default is 1)
         The minimum number of samples required to be a leaf node
 
     Returns
@@ -168,13 +201,13 @@ def extremely_random_trees(n_estim = 100, max_depth = None, min_samples_leaf = 1
 
     Parameters
     ----------
-    n_estim : int
+    n_estim : int, optional (default is 100)
         number of trees in the forest
     
-    max_depth : int or None
+    max_depth : int or None, optional (default is None)
         Maximum depth off the tree
 
-    min_samples_leaf : int
+    min_samples_leaf : int, optional (default is 1)
         The minimum number of samples required to be a leaf node
 
     Returns
@@ -217,14 +250,7 @@ def Lasso_reg():
 
     Parameters
     ----------
-    alpha : float
-        Constant that multiplies the L1 term
-
-    max_iter : int 
-        The maximum number of iterations
-
-    tol : Float
-        The maximum number of iterations
+    None
 
     Returns
     -------
@@ -247,7 +273,7 @@ def Ridge_reg(alpha, max_iter, tol):
         The maximum number of iterations
 
     tol : Float
-        The maximum number of iterations
+        The precision of the solution
 
     Returns
     -------
@@ -266,13 +292,13 @@ def elastic_net(alpha, l1_ratio, max_iter, tol):
     alpha : float
         Constant that multiplies the L1 term
 
-    l1_ratio :float
+    l1_ratio : float
         The ElasticNet mixing parameter
 
     max_iter : int 
         The maximum number of iterations
 
-    tol : Float
+    tol : float
         The maximum number of iterations
 
     Returns
